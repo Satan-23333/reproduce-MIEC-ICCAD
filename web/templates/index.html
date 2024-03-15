@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verilog Auto Debug</title>
+    <script>
+        
+        function getContent() {
+            fetch('/get-content')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('text-content').innerText = data.content;
+                });
+        }
+        setInterval(getContent, 2000); // 每2秒刷新一次
+
+        function saveInput() {
+            const text = document.getElementById('input-text').value;
+            fetch('/save-input', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'text=' + encodeURIComponent(text)
+            })
+            .then(response => response.json())
+            .then(data => {
+                //if (data.status === 'success') {
+                //    alert('输入已保存');
+                //}
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <h1>文件内容</h1>
+    <pre id="text-content"></pre>
+    <input type="text" id="input-text">
+    <button onclick="saveInput()">确定</button>
+</body>
+</html>
