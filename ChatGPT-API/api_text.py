@@ -44,9 +44,9 @@ class GPT:
     
     def RTL_GPT(self, message):                                # GPT for RTLfix, prompt need to be improved
         completion = self.client.chat.completions.create(
-            model="gpt-4-0125-preview",                                          # GPT 3.5 Turbo
+            model="gpt-4",                                          # GPT 3.5 Turbo
             #max_tokens=500,
-            temperature=0.2,
+            temperature=0.7,
             messages=[
                 {"role": "system", "content": "You are an expert in HDL design, especially skilled in verilog code writing, correction and explanation. You just need to update the design code part"},  
                 {"role": "user", "content": message},   #"Write a hspice code for a ring consisted of"+
@@ -79,7 +79,7 @@ class FileProcessor:
         self.content = self.read_file()
 
     def read_file(self):
-        with open(self.file_path, 'r', encoding='utf-8') as file:
+        with open(self.file_path, 'r+', encoding='utf-8') as file:
             return file.read()
 
     def update_file(self, new_content):
@@ -89,13 +89,25 @@ class FileProcessor:
     def read_line(self):
         return len(self.content.split('\n'))
     
+    def find_until_no_target(text):
+        # 使用正则表达式创建一个模式，该模式查找不包含目标字符串的部分
+        # 这里使用的是正向前瞻（?=pattern）来确保匹配直到找到目标字符串
+        pattern = r"[\s\S]*?(?<=module)|[\s\S]*$"
+        
+        # 使用findall方法查找所有匹配的部分
+        matches = re.findall(pattern, text)
+        
+        # 如果有匹配的部分，返回最后一个元素；否则返回空字符串
+        return matches[-2] if matches else ""
+    
     def code_fetch(self):
         pattern = r"(?<=module )[\s\S]*?(?=endmodule)"
         matches=re.finditer(pattern, self.content)
         code=''
         for match in matches:
-            #print(match.group())
-            code  = ''.join([code,'module\t',match.group(),'endmodule\n'])
+            result = self.find_until_no_target(match.group())
+            print(result)
+            code  = ''.join([code,'module\t',result,'endmodule\n'])
         return code
 
     def score_fetch(self, code):

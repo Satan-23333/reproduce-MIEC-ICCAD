@@ -10,6 +10,7 @@ def autodebug(max_i:int,dir_path):
     testbench_file_path = design_path+"/tb.v"
     compile_report_path = design_path+"/vcompile.txt"
     simulation_report_path = design_path+"/vsim.txt"
+    report_path=design_path+"/report.txt"
 
     GPT = api_text.GPT()
                 
@@ -40,12 +41,14 @@ def autodebug(max_i:int,dir_path):
             break
         else:
             if os.path.exists(simulation_report_path):
-                mod = ''.join([spec, '\n', des, '\n', tb, '\n', com, '\n', sim])
+                mod = ''.join([spec, "\n", des,  "\nThis is compile report.\n", com, "\nThis is simulation report.\n", sim,"\nPlease fix the error and return the complete modified design code"])
             else:
-                mod = ''.join([spec, '\n', des, '\n', tb, '\n', com])
+                mod = ''.join([spec, '\n', des,  "\nThis is compile report.\n", com,"\nPlease fix the error and return the complete modified design code"])
             FIX = GPT.RTL_GPT(mod)
             print("\n-GPTFIXer:\n"+FIX.content)
-
+            new_file = open(report_path, "w")
+            new_file.close()
+            api_text.FileProcessor(report_path).update_file(FIX.content)
             file.folder_rename(dir_path,"design","design("+str(i)+")")
             os.makedirs(design_path)
             new_file = open(design_file_path, "w")
@@ -55,18 +58,23 @@ def autodebug(max_i:int,dir_path):
 
             filelineTemp = api_text.FileProcessor(design_file_path).read_line()
             api_text.FileProcessor(design_file_path).update_file(FIX.content)
-
-
             code = api_text.FileProcessor(design_file_path).code_fetch()
             api_text.FileProcessor(design_file_path).update_file(code)                                  #Extract the code from the answer
+
             if code:
                 fileline = api_text.FileProcessor(design_file_path).read_line()
-                if fileline > filelineTemp*2/5+2:                                               #Avoid Answering Extreme Laziness
+                if fileline > filelineTemp*3/5:               #提高了代码行数检测线 之前是2/5+2                                #Avoid Answering Extreme Laziness
                     scoretext = GPT.Judge_GPT(code)
                     print("\n-GPTJUDGE:\n"+scoretext.content)
                     # score = api_text.FileProcessor(design_file_path).score_fetch(scoretext.content)
                     score=scoretext.content
-                    print(float(score))
+                    with open(report_path, 'a+') as f:
+                        f.write(score)
+                    f.close()
+                    try:
+                        print(float(score))
+                    except ValueError:
+                        score=0
                     if float(score) > 0.4:
                         print("\n-System: Move on")
                         api_text.modelsim(bat_path)
