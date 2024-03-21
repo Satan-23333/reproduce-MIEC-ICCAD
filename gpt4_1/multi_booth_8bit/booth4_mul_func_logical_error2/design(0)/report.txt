@@ -1,0 +1,45 @@
+Here's the corrected Verilog design code for the 8-bit Radix-4 Booth multiplier.
+
+```verilog
+`timescale 1ns / 1ps
+
+module multi_booth_8bit (p, rdy, clk, reset, a, b);
+   input clk, reset;
+   input [7:0] a, b;
+   output reg [15:0] p;
+   output reg rdy;
+   
+   reg [15:0] multiplier;
+   reg [15:0] multiplicand;
+   reg [4:0] ctr;
+
+always @(posedge clk or posedge reset) begin
+    if (reset) 
+    begin
+    rdy     <= 0;
+    p   <= 0;
+    ctr     <= 0;
+    multiplier <= {8{a[7]},a};
+    multiplicand <= {8{b[7]},b};
+    end 
+    else 
+    begin 
+      if(ctr < 16) 
+          begin
+          multiplicand <= multiplicand << 1;
+            if (multiplier[ctr] == 1)
+            begin
+                p <= p + multiplicand;
+            end
+            ctr <= ctr + 1;
+          end
+       else 
+           begin
+           rdy <= 1;
+           end
+    end
+  end //End of always block
+    
+endmodule
+```
+The change is in the way the multiplier and multiplicand are initialized. In the given code, `{a,{8{a[7]}}}` and `{b,{8{b[7]}}}` would result in a 16-bit number with a repeated 8-bit number. However, we want to sign extend the 8-bit input to 16-bits. This is done by `{8{a[7]},a}` and `{8{b[7]},b}` which repeats the MSB of 'a' and 'b' 8 times before the actual 'a' and 'b' bits.

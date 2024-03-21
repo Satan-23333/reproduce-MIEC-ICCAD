@@ -1,0 +1,9 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 13:13:03 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module multi_pipe_8bit
+** Error (suppressible): (vlog-13198) ./design/design.v(86): Illegal bit-select into scalar variable "mul_en_out".
+** Warning: ./design/design.v(86): (vlog-2576) [BSOB] - Bit-select into 'mul_en_out' is out of bounds.
+-- Compiling module tb
+End time: 13:13:03 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 1, Warnings: 1

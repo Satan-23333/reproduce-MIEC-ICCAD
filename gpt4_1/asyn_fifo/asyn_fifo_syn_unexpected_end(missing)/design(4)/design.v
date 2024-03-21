@@ -1,0 +1,127 @@
+module	dual_port_RAM #(parameter DEPTH = 16, parameter WIDTH = 8)
+(
+    input wclk,
+    input wenc,
+    input [$clog2(DEPTH)-1:0] waddr,
+    input [WIDTH-1:0] wdata,
+    input rclk,
+    input renc,
+    input [$clog2(DEPTH)-1:0] raddr,
+    output reg [WIDTH-1:0] rdata 		
+);
+
+reg [WIDTH-1:0] RAM_MEM [0:DEPTH-1];
+
+always @(posedge wclk) begin
+    if(wenc)
+        RAM_MEM[waddr] <= wdata;
+end 
+
+always @(posedge rclk) begin
+    if(renc)
+        rdata <= RAM_MEM[raddr];
+end 
+
+endmodule
+module	asyn_fifo #(parameter WIDTH = 8, parameter DEPTH = 16)
+(
+    input wclk,
+    input rclk,
+    input wrstn,
+    input rrstn,
+    input winc,
+    input rinc,
+    input [WIDTH-1:0] wdata,
+    output wire wfull,
+    output wire rempty,
+    output reg [WIDTH-1:0] rdata
+);
+
+localparam ADDR_WIDTH = $clog2(DEPTH);
+
+reg [ADDR_WIDTH-1:0] waddr_bin, raddr_bin;
+reg [ADDR_WIDTH:0] wptr, rptr, wptr_buff, rptr_buff;
+wire [ADDR_WIDTH:0] wptr_syn, rptr_syn;
+reg wenc, renc;
+
+dual_port_RAM #(DEPTH, WIDTH) RAM(.wclk(wclk), .wenc(wenc), .waddr(waddr_bin), .wdata(wdata), 
+                                   .rclk(rclk), .renc(renc), .raddr(raddr_bin), .rdata(rdata));
+
+// Write pointer
+always @(posedge wclk or negedge wrstn)
+begin
+    if(!wrstn)
+        waddr_bin <= 0;
+    else if(winc && !wfull)
+        waddr_bin <= waddr_bin + 1;
+end
+
+// Read pointer
+always @(posedge rclk or negedge rrstn)
+begin
+    if(!rrstn)
+        raddr_bin <= 0;
+    else if(rinc && !rempty)
+        raddr_bin <= raddr_bin + 1;
+end
+
+// Gray code conversion
+always @(posedge wclk or negedge wrstn) begin
+    if(!wrstn)
+        wptr <= 0;
+    else if(winc && !wfull)
+        wptr <= waddr_bin + 1;
+end
+
+always @(posedge rclk or negedge rrstn) begin
+    if(!rrstn)
+        rptr <= 0;
+    else if(rinc && !rempty)
+        rptr <= raddr_bin + 1;
+end
+
+// Synchronization
+always @(posedge wclk or negedge wrstn) begin
+    if(!wrstn)
+        wptr_buff <= 0;
+    else
+        wptr_buff <= wptr;
+end
+
+always @(posedge rclk or negedge rrstn) begin
+    if(!rrstn)
+        rptr_buff <= 0;
+    else
+        rptr_buff <= rptr;
+end
+
+assign wptr_syn = rptr_buff;
+assign rptr_syn = wptr_buff;
+
+// Full and empty signals
+assign wfull = (wptr[ADDR_WIDTH] ^ rptr_syn[ADDR_WIDTH-1]) & (wptr[ADDR_WIDTH-1:0] == rptr_syn[ADDR_WIDTH-1:0]);
+assign rempty = (wptr_syn == rptr);
+
+// Write enable
+always @(posedge wclk or negedge wrstn)
+begin
+    if(!wrstn)
+        wenc <= 0;
+    else if(winc)
+        wenc <= 1;
+    else
+        wenc <= 0;
+end
+
+// Read enable
+always @(posedge rclk or negedge rrstn)
+begin
+    if(!rrstn)
+        renc <= 0;
+    else if(rinc)
+        renc <= 1;
+    else
+        renc <= 0;
+end
+
+endmodule

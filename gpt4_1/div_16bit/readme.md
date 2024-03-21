@@ -1,0 +1,11 @@
+div_16bit_func_mixup_blocknonblock
+阻塞赋值与非阻塞赋值未报错
+
+div_16bit_func_multiprocess
+变量赋值对象错误，第一次改正了此处错误，但进行了额外的修改
+
+div_16bit_syn_declared_var
+重复定义  改正但修改了其他变量的位数
+
+div_16bit_syn_unexpected_end(extra)
+多一个; 进行额外的修改

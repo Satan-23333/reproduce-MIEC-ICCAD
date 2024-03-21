@@ -1,0 +1,50 @@
+Sure, here is the corrected Verilog code for the 8-bit Radix-4 Booth multiplier:
+
+```verilog
+`timescale 1ns / 1ps
+
+module multi_booth_8bit (
+   input clk, reset,
+   input [7:0] a, b,
+   output reg [15:0] p,
+   output reg rdy
+);
+
+   reg [15:0] multiplier;
+   reg [15:0] multiplicand;
+   reg [4:0] ctr;
+
+always @(posedge clk or posedge reset) begin
+    if (reset) 
+    begin
+    rdy     <= 0;
+    p   <= 0;
+    ctr     <= 0;
+    multiplier <= {{8{a[7]}}, a};
+    multiplicand <= {{8{b[7]}}, b};
+    end 
+    else 
+    begin 
+      if(ctr < 16) 
+          begin
+          multiplicand <= multiplicand << 1;
+            if (multiplier[ctr] == 1)
+            begin
+                p <= p + multiplicand;
+            end
+            ctr <= ctr + 1;
+          end
+       else 
+           begin
+           rdy <= 1;
+           end
+    end
+  end 
+endmodule
+```
+
+Here are the changes I made:
+
+1. The `p` and `rdy` ports were initially declared as outputs but then redeclared as registers within the module. In Verilog, you can declare these as output registers in the input/output declaration section. 
+
+2. In an if-statement condition, we use the `==` operator to compare two values. In your code, you used `=` which can cause a syntax error. I have replaced `=` with `==` inside the if-statement condition where `multiplier[ctr]` is being compared with 1.

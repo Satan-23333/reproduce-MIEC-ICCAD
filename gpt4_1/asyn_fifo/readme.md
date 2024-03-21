@@ -1,0 +1,26 @@
+asyn_fifo_func_improper_sensignal_
+wrst  rrstn检测错误  提取代码出现错误
+
+asyn_fifo_func_insufficient_bitwidth
+提取代码出现错误，修改对ram中raddr waddr都加了一位
+
+asyn_fifo_func_logical_error(wrong operator)
+提取代码出现错误
+
+asyn_fifo_func_mixup_blocknonblock
+阻塞赋值与非阻塞赋值未检测出
+
+asyn_fifo_func_multiprocess
+rrstn 的功能未检测
+
+asyn_fifo_func_not_all_ports_connected
+调用是wclk未连接 提取代码出错
+
+asyn_fifo_syn_nonprint
+提取代码出错
+
+asyn_fifo_syn_unexpected_end(extra)
+提取代码出错
+
+asyn_fifo_syn_unexpected_end(missing)
+提取代码出错

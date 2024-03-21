@@ -1,0 +1,45 @@
+Here is the corrected Verilog design code:
+
+```verilog
+module	accu(
+    input               clk         ,   
+    input               rst_n       ,
+    input       [7:0]   data_in     ,
+    input               valid_in    ,
+    
+    output  reg         valid_out   ,
+    output  reg [9:0]   data_out
+);
+
+reg [1:0] count;
+reg [9:0] data_out_reg;
+
+// count and valid_out
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n) begin
+       count = 2'b00;
+       valid_out = 1'b0;
+       data_out_reg = 0;
+    end
+    else if(valid_in) begin
+        if(count == 2'b11) begin
+            count = 2'b00;
+            valid_out = 1'b1;
+            data_out = data_out_reg + data_in;
+            data_out_reg = 0;
+        end
+        else begin
+            count = count + 1;
+            valid_out = 1'b0;
+            data_out_reg = data_out_reg + data_in;
+        end
+    end
+    else begin
+        valid_out = 1'b0;
+    end
+end
+
+endmodule
+```
+
+In this corrected code, I merged the two always blocks into one and moved the line `data_out_reg = 0` under the reset condition. Then in the `if(count == 2'b11)` condition, I added the line `data_out = data_out_reg + data_in` to output the accumulated sum when 4 valid inputs are received, and reset `data_out_reg` to 0 for the next accumulation. The `data_out_reg = data_out_reg + data_in` line is also added in the `else` condition to accumulate the sum when less than 4 valid inputs are received.

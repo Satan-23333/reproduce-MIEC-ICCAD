@@ -1,0 +1,11 @@
+multi_pipe_8bit_func_improper_senlist
+rst_n posedge 需要改成negedge   tb未检测
+
+multi_pipe_8bit_func_insufficient_bitwidth
+mul_out缺少一位，第一次修改中修改了这里的错误，但同时修改了其他部分造成错误
+
+multi_pipe_8bit_func_mixup_blocknonblock
+非阻塞赋值变成阻塞赋值
+
+
+

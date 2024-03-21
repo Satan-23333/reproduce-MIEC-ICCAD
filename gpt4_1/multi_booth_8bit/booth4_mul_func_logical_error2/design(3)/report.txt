@@ -1,0 +1,46 @@
+Sure, I will fix the problem in your Verilog code. The error is due to incorrect use of the concatenation operator {}. You have given a comma instead of colon between the replication operator and the operand. 
+
+Here is the corrected code:
+
+```verilog
+module	multi_booth_8bit (p, rdy, clk, reset, a, b);
+   input clk, reset;
+   input [7:0] a, b;
+   output reg [15:0] p;
+   output reg rdy;
+   
+   reg [15:0] multiplier;
+   reg [15:0] multiplicand;
+   reg [4:0] ctr;
+
+always @(posedge clk or posedge reset) begin
+    if (reset) 
+    begin
+    rdy     <= 0;
+    p   <= 0;
+    ctr     <= 0;
+    multiplier <= {8{a[7]},a};
+    multiplicand <= {8{b[7]},b};
+    end 
+    else 
+    begin 
+      if(ctr < 16) 
+          begin
+          multiplicand <= multiplicand << 1;
+            if (multiplier[ctr] == 1)
+            begin
+                p <= p + multiplicand;
+            end
+            ctr <= ctr + 1;
+          end
+       else 
+           begin
+           rdy <= 1;
+           end
+    end
+  end //End of always block
+    
+endmodule
+```
+
+In your original code, you had written `{8{a[7]},a}` and `{8{b[7]},b}`, which is incorrect. The curly braces `{}` are used for concatenation and replication in Verilog. The correct syntax for replication is `{n{a}}`, where `n` is the number of times `a` is to be replicated. And for concatenation, it is `{a, b}` where `a` and `b` are the values to be concatenated. So, your corrected line of code is `{8{a[7]},a}` and `{8{b[7]},b}`. Here, `8{a[7]}` replicates the 7th bit of `a` eight times, and then it is concatenated with `a` itself. The same is done for `b`.

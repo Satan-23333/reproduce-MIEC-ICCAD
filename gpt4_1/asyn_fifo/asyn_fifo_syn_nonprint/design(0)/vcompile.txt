@@ -1,0 +1,15 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 19:21:41 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module dual_port_RAM
+** Error: (vlog-13067) ./design/design.v(16:24): Syntax error, unexpected non-printable character with the hex value '0xe3'.
+** Error: (vlog-13067) ./design/design.v(16:25): Syntax error, unexpected non-printable character with the hex value '0x80'.
+** Error: (vlog-13067) ./design/design.v(16:26): Syntax error, unexpected non-printable character with the hex value '0x90'.
+** Error: (vlog-13069) ./design/design.v(16): near "0": syntax error, unexpected INTEGER NUMBER, expecting ';' or ','.
+** Error: (vlog-13067) ./design/design.v(16:36): Syntax error, unexpected non-printable character with the hex value '0xe3'.
+** Error: (vlog-13067) ./design/design.v(16:37): Syntax error, unexpected non-printable character with the hex value '0x80'.
+** Error: (vlog-13067) ./design/design.v(16:38): Syntax error, unexpected non-printable character with the hex value '0x91'.
+-- Compiling module asyn_fifo
+-- Compiling module tb
+End time: 19:21:41 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 7, Warnings: 0

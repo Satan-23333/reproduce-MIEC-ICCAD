@@ -1,0 +1,12 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 17:34:54 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module adder_32bit
+-- Compiling module CLA_16
+** Error: ./design/design.v(43): (vlog-2957) LSB of part-select into 'A' is out of bounds.
+-- Compiling module adder_4
+-- Compiling module CLA
+-- Compiling module adder
+-- Compiling module tb
+End time: 17:34:54 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 1, Warnings: 0

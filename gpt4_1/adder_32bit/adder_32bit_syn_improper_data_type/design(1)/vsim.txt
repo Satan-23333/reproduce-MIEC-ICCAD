@@ -1,0 +1,15 @@
+# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
+# Start time: 20:38:33 on Mar 19,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error: ./design/design.v(36): Module 'adder_4' is not defined.
+# ** Error: ./design/design.v(45): Module 'adder_4' is not defined.
+# ** Error: ./design/design.v(54): Module 'adder_4' is not defined.
+# ** Error: ./design/design.v(63): Module 'adder_4' is not defined.
+# ** Error: ./design/design.v(36): Module 'adder_4' is not defined.
+# ** Error: ./design/design.v(45): Module 'adder_4' is not defined.
+# ** Error: ./design/design.v(54): Module 'adder_4' is not defined.
+# ** Error: ./design/design.v(63): Module 'adder_4' is not defined.
+# Optimization failed
+# Error loading design
+# End time: 20:38:33 on Mar 19,2024, Elapsed time: 0:00:00
+# Errors: 8, Warnings: 0

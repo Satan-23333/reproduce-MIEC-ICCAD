@@ -1,0 +1,81 @@
+Here is the corrected Verilog code for the module `adder_pipe_64bit`. The error in the original code is that it doesn't correctly propagate the carry between different stages of the ripple-carry adder. This is fixed by adding a carry propagation logic to the code.
+
+```verilog
+module	adder_pipe_64bit
+#(
+    parameter DATA_WIDTH = 64,
+    parameter STG_WIDTH = 4
+)
+(
+    input wire clk,
+    input wire rst_n,
+    input wire i_en,
+    input wire [DATA_WIDTH-1:0] adda,
+    input wire [DATA_WIDTH-1:0] addb,
+    output reg [DATA_WIDTH:0] result,
+    output reg o_en
+);
+
+reg [DATA_WIDTH:0] sum[STG_WIDTH:1];
+reg [DATA_WIDTH-1:0] adda_reg[STG_WIDTH:1], addb_reg[STG_WIDTH:1];
+reg i_en_reg[STG_WIDTH:1];
+reg [DATA_WIDTH-1:0] carry;
+
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        adda_reg[1] <= 64'd0;
+        addb_reg[1] <= 64'd0;
+        i_en_reg[1] <= 1'b0;
+        carry <= 64'd0;
+    end else if (i_en) begin
+        adda_reg[1] <= adda;
+        addb_reg[1] <= addb;
+        i_en_reg[1] <= i_en;
+    end
+end
+
+genvar i;
+generate
+    for (i=1; i<STG_WIDTH; i=i+1) begin : pipe
+        always @(posedge clk or negedge rst_n) begin
+            if (!rst_n) begin
+                adda_reg[i+1] <= 64'd0;
+                addb_reg[i+1] <= 64'd0;
+                i_en_reg[i+1] <= 1'b0;
+            end else if (i_en_reg[i]) begin
+                adda_reg[i+1] <= adda_reg[i];
+                addb_reg[i+1] <= addb_reg[i];
+                i_en_reg[i+1] <= i_en_reg[i];
+            end
+        end
+    end
+endgenerate
+
+generate
+    for (i=1; i<=STG_WIDTH; i=i+1) begin : add
+        always @(posedge clk or negedge rst_n) begin
+            if (!rst_n) begin
+                sum[i] <= 65'd0;
+            end else if (i_en_reg[i]) begin
+                {carry[i], sum[i]} <= adda_reg[i] + addb_reg[i] + carry[i-1];
+            end
+        end
+    end
+endgenerate
+
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        o_en <= 1'b0;
+        result <= 65'd0;
+    end else if (i_en_reg[STG_WIDTH]) begin
+        o_en <= 1'b1;
+        result <= {carry[STG_WIDTH], sum[STG_WIDTH]};
+    end else begin
+        o_en <= 1'b0;
+    end
+end
+
+endmodule
+```
+
+I've added a `carry` register array to hold the carry-out of each stage. The carry-out of each stage is calculated as the sum of the inputs and the carry-in to that stage. The result of each stage is then composed of the carry-out of the next stage and the sum of the current stage. This way, the carry is correctly propagated between stages.

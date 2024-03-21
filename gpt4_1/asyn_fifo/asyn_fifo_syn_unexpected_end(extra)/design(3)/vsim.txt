@@ -1,0 +1,8 @@
+# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
+# Start time: 19:36:53 on Mar 20,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error: ./design/design.v(27): Module 'dual_port_RAM' is not defined.
+# Optimization failed
+# Error loading design
+# End time: 19:36:54 on Mar 20,2024, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0

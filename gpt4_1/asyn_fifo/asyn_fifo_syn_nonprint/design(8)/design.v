@@ -1,0 +1,84 @@
+module	asyn_fifo #(
+    parameter DEPTH = 16,
+    parameter WIDTH = 8
+)(
+    input wclk,
+    input rclk,
+    input wrstn,
+    input rrstn,
+    input winc,
+    input rinc,
+    input [WIDTH-1:0] wdata,
+    output reg wfull,
+    output reg rempty,
+    output reg [WIDTH-1:0] rdata
+);
+
+    // Instantiate the dual-port RAM
+    dual_port_RAM #(.DEPTH(DEPTH), .WIDTH(WIDTH)) RAM (
+        .wclk(wclk),
+        .wenc(winc && !wfull),
+        .waddr(waddr_bin),
+        .wdata(wdata),
+        .rclk(rclk),
+        .renc(rinc && !rempty),
+        .raddr(raddr_bin),
+        .rdata(rdata)
+    );
+
+    // Pointer logic
+    reg [$clog2(DEPTH)-1:0] waddr_bin, raddr_bin;
+    reg [$clog2(DEPTH):0] wptr, rptr;
+    reg [$clog2(DEPTH):0] wptr_buff, rptr_buff;
+    reg [$clog2(DEPTH):0] rptr_syn;
+    
+    always @(posedge wclk or negedge wrstn) begin
+        if(!wrstn)
+            waddr_bin <= 0;
+        else if(winc && !wfull)
+            waddr_bin <= waddr_bin + 1;
+    end
+
+    always @(posedge rclk or negedge rrstn) begin
+        if(!rrstn)
+            raddr_bin <= 0;
+        else if(rinc && !rempty)
+            raddr_bin <= raddr_bin + 1;
+    end
+
+    always @(posedge wclk or negedge wrstn) begin
+        if(!wrstn)
+            wptr <= 0;
+        else if(winc && !wfull)
+            wptr <= wptr + 1;
+    end
+
+    always @(posedge rclk or negedge rrstn) begin
+        if(!rrstn)
+            rptr <= 0;
+        else if(rinc && !rempty)
+            rptr <= rptr + 1;
+    end
+
+    always @(posedge wclk or negedge wrstn) begin
+        if(!wrstn)
+            wptr_buff <= 0;
+        else
+            wptr_buff <= wptr;
+    end
+
+    always @(posedge rclk or negedge rrstn) begin
+        if(!rrstn)
+            rptr_buff <= 0;
+        else
+            rptr_buff <= rptr;
+    end
+
+    always @(posedge rclk)
+        rptr_syn <= wptr_buff;
+
+    assign wfull = (wptr[DEPTH:$clog2(DEPTH)] == ~rptr_syn[DEPTH:$clog2(DEPTH)]) && 
+        (wptr[$clog2(DEPTH)-1:0] == rptr_syn[$clog2(DEPTH)-1:0]);
+    assign rempty = (wptr == rptr_syn);
+
+endmodule

@@ -1,0 +1,8 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 18:54:34 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module dual_port_RAM
+** Error: (vlog-13069) ./design/design.v(28): near "module": syntax error, unexpected module.
+-- Compiling module tb
+End time: 18:54:34 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 1, Warnings: 0

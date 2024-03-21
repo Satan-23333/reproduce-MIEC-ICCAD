@@ -1,0 +1,67 @@
+The error is due to the incorrect connection of a reg type output to an instantiated module. In verilog, you can't connect a reg type variable to an output of an instantiated module. We need to change the output reg to output wire in the dual-port RAM module and make sure that the rdata output of the asyn_fifo module is connected to a wire type variable.
+
+Here's the corrected code:
+
+```verilog
+module	dual_port_RAM #(parameter DEPTH = 16, parameter WIDTH = 8)
+(
+    input wclk,
+    input wenc,
+    input [$clog2(DEPTH)-1:0] waddr,
+    input [WIDTH-1:0] wdata,
+    input rclk,
+    input renc,
+    input [$clog2(DEPTH)-1:0] raddr,
+    output wire [WIDTH-1:0] rdata_reg  		
+);
+
+reg [WIDTH-1:0] RAM_MEM [0:DEPTH-1];
+
+always @(posedge wclk) begin
+    if(wenc)
+        RAM_MEM[waddr] <= wdata;
+end 
+
+always @(posedge rclk) begin
+    if(renc)
+        rdata_reg <= RAM_MEM[raddr];
+end 
+
+endmodule
+
+module	asyn_fifo #(parameter WIDTH = 8, parameter DEPTH = 16)
+(
+    input wclk,
+    input rclk,
+    input wrstn,
+    input rrstn,
+    input winc,
+    input rinc,
+    input [WIDTH-1:0] wdata,
+    output reg wfull,
+    output reg rempty,
+    output wire [WIDTH-1:0] rdata
+);
+
+wire [WIDTH-1:0] rdata_wire;
+
+// Instantiate dual-port RAM
+dual_port_RAM #(DEPTH, WIDTH) RAM (
+    .wclk(wclk),
+    .wenc(winc & ~wfull),
+    .waddr(waddr_bin),
+    .wdata(wdata),
+    .rclk(rclk),
+    .renc(rinc & ~rempty),
+    .raddr(raddr_bin),
+    .rdata_reg(rdata_wire)
+);
+
+assign rdata = rdata_wire;
+
+// Other code for the asyn_fifo module
+
+endmodule
+```
+
+In this corrected code, I've changed the rdata_reg output of the dual_port_RAM module to be of type wire instead of reg. Also, in the asyn_fifo module, I've created a wire type variable rdata_wire and connected it to the rdata_reg output of the RAM module. Then, I've connected the rdata output of the asyn_fifo module to rdata_wire using an assign statement.

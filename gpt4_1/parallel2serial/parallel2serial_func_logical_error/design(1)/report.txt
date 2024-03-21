@@ -1,0 +1,40 @@
+Sure, here is the corrected Verilog code for parallel2serial module:
+
+```verilog
+module parallel2serial(
+    input wire clk,
+    input wire rst_n,
+    input wire [3:0]d,
+    output wire valid_out,
+    output wire dout
+    );
+
+    reg [3:0] data = 4'b0;
+    reg [1:0] cnt;
+    reg valid;
+    assign dout = data[3];
+    assign valid_out = valid;
+    
+    always @(posedge clk or negedge rst_n) begin
+        if(!rst_n)begin
+            data <= 4'b0;
+            cnt <= 2'b0;
+            valid <= 1'b0;
+        end
+        else begin                
+            if (cnt == 2'b11) begin
+                data <= d;
+                cnt <= 2'b0;
+                valid <= 1'b1;
+            end
+            else begin
+                cnt <= cnt + 2'b1;
+                valid <= 1'b0;
+                data <= {data[2:0], 1'b0};
+            end
+        end
+    end
+endmodule
+```
+
+In the corrected code, the data register (data) is updated with the parallel input (d) directly when the counter (cnt) is 3. The most significant bit (MSB) of the parallel input is output first as required. In addition, the data register (data) is shifted to the left by one bit when the counter (cnt) is not 3, with the MSB discarded and a 0 inserted at the least significant bit (LSB).

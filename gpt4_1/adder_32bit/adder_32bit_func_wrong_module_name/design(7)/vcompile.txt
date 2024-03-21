@@ -1,0 +1,19 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 17:25:48 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+** Error: ./design/design.v(1): (vlog-2163) Macro `CLA_16 is undefined.
+** Error: ./design/design.v(1): (vlog-2163) Macro `is is undefined.
+** Error: (vlog-13069) ./design/design.v(1): near "not": syntax error, unexpected not.
+** Error: ./design/design.v(1): (vlog-2163) Macro `CLA_16 is undefined.
+** Error: ./design/design.v(1): (vlog-2163) Macro `module is undefined.
+** Error: ./design/design.v(1): (vlog-2163) Macro `adder_32bit is undefined.
+** Error: ./design/design.v(1): (vlog-2163) Macro `module is undefined.
+** Error: ./design/design.v(3): (vlog-2163) Macro `CLA_16 is undefined.
+** Error: ./design/design.v(3): (vlog-2163) Macro `module is undefined.
+** Error: ./design/design.v(3): (vlog-2163) Macro `CLA_16 is undefined.
+** Error: ./design/design.v(3): (vlog-2163) Macro `module is undefined.
+** Warning: ./design/design.v(5): (vlog-2638) Bad name or identifier in Verilog compiler directive.  The following text was found where a compiler directive name or macro name was expected.: `.
+** Error: ./design/design.v(5): (vlog-2163) Macro `verilog is undefined.
+-- Compiling module tb
+End time: 17:25:48 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 12, Warnings: 1

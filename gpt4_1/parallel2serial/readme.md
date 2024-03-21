@@ -1,0 +1,6 @@
+parallel2serial_func_improper_sen
+边沿检测缺少对rst_n检测未报错
+
+parallel2serial_func_mixup_blocknonblock
+非阻塞赋值均改为阻塞赋值未报错
+

@@ -1,0 +1,9 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 19:33:21 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module asyn_fifo
+** Error: ./design/design.v(90): Register is illegal in left-hand side of continuous assignment
+** Error: ./design/design.v(92): Register is illegal in left-hand side of continuous assignment
+-- Compiling module tb
+End time: 19:33:21 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 2, Warnings: 0

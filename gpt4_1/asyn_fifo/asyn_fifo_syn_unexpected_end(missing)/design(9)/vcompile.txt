@@ -1,0 +1,11 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 19:48:15 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module dual_port_RAM
+** Error: ./design/design.v(20): Register is illegal in left-hand side of continuous assignment
+-- Compiling module asyn_fifo
+** Error: ./design/design.v(43): (vlog-2730) Undefined variable: 'RAM_MEM'.
+** Error: (vlog-13069) ./design/design.v(91): near ",": syntax error, unexpected ','.
+-- Compiling module tb
+End time: 19:48:15 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 3, Warnings: 0

@@ -1,0 +1,34 @@
+module	adder_pipe_64bit
+#(
+    parameter DATA_WIDTH = 64,
+    parameter STG_WIDTH = 16
+)
+(
+    input clk,
+    input rst_n,
+    input i_en,
+    input [DATA_WIDTH-1:0] adda,
+    input [DATA_WIDTH-1:0] addb,
+    output [DATA_WIDTH:0] result,
+    output reg o_en
+);
+
+// ... keeping the other parts of the code unchanged ...
+
+always @(posedge clk, negedge rst_n) begin
+    if (!rst_n) begin
+        c2 <= 1'b0;
+        s2 <= 'd0;
+    end
+    else if (stage1) begin
+        {c2, s2} <= a2_ff1 + b2_ff1 + c1; // change '&' to '+' here
+    end
+    else begin
+        c2 <= c2;
+        s2 <= s2;
+    end
+end
+
+// ... keeping the other parts of the code unchanged ...
+
+endmodule

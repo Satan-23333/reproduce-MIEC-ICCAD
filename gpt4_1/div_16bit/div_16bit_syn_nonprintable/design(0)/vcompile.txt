@@ -1,0 +1,11 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 12:44:13 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module div_16bit
+** Error: (vlog-13067) ./design/design.v(21:30): Syntax error, unexpected non-printable character with the hex value '0xef'.
+** Error: (vlog-13067) ./design/design.v(21:31): Syntax error, unexpected non-printable character with the hex value '0xbc'.
+** Error: (vlog-13067) ./design/design.v(21:32): Syntax error, unexpected non-printable character with the hex value '0x9b'.
+** Error: (vlog-13069) ./design/design.v(22): near "tmp_b": syntax error, unexpected IDENTIFIER, expecting ';'.
+-- Compiling module tb
+End time: 12:44:13 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 4, Warnings: 0

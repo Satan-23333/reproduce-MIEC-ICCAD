@@ -1,0 +1,14 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 13:20:31 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module parallel2serial
+** Error: (vlog-13069) ./design/design.v(24): near "=": syntax error, unexpected '=', expecting ++ or --.
+** Error: (vlog-13069) ./design/design.v(29): near "else": syntax error, unexpected else.
+** Error: (vlog-13069) ./design/design.v(34): near "end": syntax error, unexpected end.
+** Error (suppressible): ./design/tb.v(4): (vlog-2388) 'clk' already declared in this scope (parallel2serial).
+** Error (suppressible): ./design/tb.v(5): (vlog-2388) 'rst_n' already declared in this scope (parallel2serial).
+** Error (suppressible): ./design/tb.v(6): (vlog-2388) 'd' already declared in this scope (parallel2serial).
+** Error (suppressible): ./design/tb.v(7): (vlog-2388) 'valid_out' already declared in this scope (parallel2serial).
+** Error (suppressible): ./design/tb.v(8): (vlog-2388) 'dout' already declared in this scope (parallel2serial).
+End time: 13:20:31 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 8, Warnings: 0

@@ -1,0 +1,10 @@
+# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
+# Start time: 17:17:01 on Mar 20,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error (suppressible): ./design/design.v(40): (vopt-2912) Port 'c4' not found in module 'adder_4' (4th connection).
+# ** Error (suppressible): ./design/design.v(40): (vopt-2912) Port 'Gm' not found in module 'adder_4' (6th connection).
+# ** Error (suppressible): ./design/design.v(40): (vopt-2912) Port 'Pm' not found in module 'adder_4' (7th connection).
+# Optimization failed
+# Error loading design
+# End time: 17:17:01 on Mar 20,2024, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0

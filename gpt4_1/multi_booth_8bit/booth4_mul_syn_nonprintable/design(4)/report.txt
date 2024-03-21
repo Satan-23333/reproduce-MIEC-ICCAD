@@ -1,0 +1,37 @@
+Certainly, let's correct the syntax errors in your Verilog code. The error in the design code is due to the incorrect use of the concatenation operator {}. Here is the corrected design code:
+
+```verilog
+module	multi_booth_8bit (
+    input clk, reset,
+    input [7:0] a, b,
+    output reg [15:0] p,
+    output reg rdy
+);
+
+    reg [15:0] multiplier;
+    reg [15:0] multiplicand;
+    reg [4:0] ctr;
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            rdy <= 0;
+            p <= 0;
+            ctr <= 0;
+            multiplier <= {a[7], a[7], a[7], a[7], a[7], a[7], a[7], a[7], a};
+            multiplicand <= {b[7], b[7], b[7], b[7], b[7], b[7], b[7], b[7], b};
+        end 
+        else begin 
+            if(ctr < 16) begin
+                multiplicand <= multiplicand << 1;
+                if (multiplier[ctr] == 1)
+                    p <= p + multiplicand;
+                ctr <= ctr + 1;
+            end
+            else 
+                rdy <= 1;
+        end
+    end
+endmodule
+```
+
+In the above code, instead of using {{8{a[7]}}, a} and {{8{b[7]}}, b}, we use {a[7], a[7], a[7], a[7], a[7], a[7], a[7], a[7], a} and {b[7], b[7], b[7], b[7], b[7], b[7], b[7], b[7], b} respectively for sign extension. This is because the former syntax is not appropriate in Verilog for sign extension. The latter one is correct and it repeats the MSB 8 times before the value of 'a' or 'b'.

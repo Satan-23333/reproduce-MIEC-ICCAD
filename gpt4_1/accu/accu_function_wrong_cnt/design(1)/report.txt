@@ -1,0 +1,42 @@
+Here I have modified the design code. The key issue was that you were incrementing the count before checking its value. This means that your comparison with '11' would never be true, because at the time of the check, the count was still '10'. Therefore, I moved the increment operation after the comparison to correct this.
+
+Here is the corrected code:
+
+```verilog
+module	accu(
+    input               clk         ,   
+    input               rst_n       ,
+    input       [7:0]   data_in     ,
+    input               valid_in     ,
+ 
+    output  reg         valid_out     ,
+    output  reg [9:0]   data_out
+);
+    
+   reg [1:0] count;
+   reg [9:0]   data_out_reg;
+
+   //count
+   always @(posedge clk or negedge rst_n) begin
+       if(!rst_n) begin
+          count <= 2'b00;
+          valid_out <= 1'b0; 
+          data_out_reg <= 10'b0;
+       end
+       else if(valid_in) begin
+          data_out_reg <= data_out_reg + data_in;
+          if (count == 2'b11) begin
+            valid_out <= 1'b1;
+            data_out <= data_out_reg;
+            count <= 2'b00;
+            data_out_reg <= 10'b0;
+          end
+          else begin
+            valid_out <= 1'b0;
+            count <= count + 1;
+          end
+       end
+   end
+endmodule
+```
+This code should now work as intended with the count correctly checking for four inputs before resetting.

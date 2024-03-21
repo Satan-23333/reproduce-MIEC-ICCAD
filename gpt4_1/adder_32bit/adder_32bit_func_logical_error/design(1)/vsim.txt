@@ -1,0 +1,8 @@
+# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
+# Start time: 00:15:23 on Mar 20,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error: ./design/design.v(80): (vopt-2884) Bit-select into 'c' is out of bounds.
+# ** Error: (vopt-2064) Compiler back-end code generation process terminated with code 2.
+# Error loading design
+# End time: 00:15:23 on Mar 20,2024, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0

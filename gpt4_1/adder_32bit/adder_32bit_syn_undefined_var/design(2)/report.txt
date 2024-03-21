@@ -1,0 +1,52 @@
+Based on the error messages in your simulation report, it seems that the issue is that the module 'CLA_16' is not defined. This module is being called in your 'adder_32bit' module, but it is not present in your code. To fix this, we need to add the definition of the 'CLA_16' module to your code. Unfortunately, I cannot provide the exact code for the 'CLA_16' module as the implementation details are not provided. 
+
+However, a potential 'CLA_16' module might look like follows:
+
+```verilog
+module CLA_16 (A, B, c0, S, px, gx);
+  input [15:0] A;
+  input [15:0] B;
+  input c0;
+  output [15:0] S;
+  output px, gx;
+
+  // Implement your carry-lookahead adder logic here
+endmodule
+```
+
+Now, your 'adder_32bit' module should be able to find the 'CLA_16' module:
+
+```verilog
+module adder_32bit(A,B,S,C32);
+  input [31:0] A;
+  input [31:0] B;
+  output [31:0] S;
+  output C32;
+
+  wire px1,gx1,px2,gx2;
+  wire c16;
+
+  CLA_16 CLA1(
+    .A(A[15:0]),
+    .B(B[15:0]),
+    .c0(0),
+    .S(S[15:0]),
+    .px(px1),
+    .gx(gx1)
+  );
+
+  CLA_16 CLA2(
+    .A(A[31:16]),
+    .B(B[31:16]),
+    .c0(c16),
+    .S(S[31:16]),
+    .px(px2),
+    .gx(gx2)
+  );
+
+  assign c16 = gx1 ^ (px1 && 0); //c0 = 0
+  assign C32 = gx2 ^ (px2 && c16);
+endmodule
+```
+
+Please note that you need to replace the comment in the 'CLA_16' module with the actual implementation of a 16-bit carry-lookahead adder. The code above just gives the basic structure of the 'CLA_16' module and doesn't include the specific logic for a carry-lookahead adder.

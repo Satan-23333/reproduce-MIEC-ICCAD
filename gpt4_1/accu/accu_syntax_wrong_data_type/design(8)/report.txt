@@ -1,0 +1,60 @@
+The issue with the code is that the count is incremented before the addition of the last input data, which results in erroneous accumulation. To fix this, the accumulation must be performed before incrementing the count.
+
+Here is the corrected code:
+
+```verilog
+module	accu(
+    input               clk         ,   
+    input               rst_n       ,
+    input       [7:0]   data_in     ,
+    input               valid_in    ,
+    
+    output  reg         valid_out   ,
+    output  reg [9:0]   data_out
+);
+
+reg [1:0] count;
+reg [9:0] data_out_reg;
+
+// count and valid_out
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n) begin
+       count = 2'b00;
+       valid_out = 1'b0;
+    end
+    else if(valid_in) begin
+        if(count == 2'b11) begin
+            valid_out = 1'b1;
+            count = 2'b00;
+        end
+        else begin
+            valid_out = 1'b0;
+            count = count + 1;
+        end
+    end
+    else begin
+        valid_out = 1'b0;
+    end
+end
+
+// data_out_reg and data_out
+always @(posedge clk or negedge rst_n) begin
+   if(!rst_n) begin
+     data_out_reg = 0;
+   end
+   else if(valid_in) begin
+       if(count == 2'b11) begin
+           data_out_reg = data_out_reg + data_in;
+           data_out = data_out_reg;
+           data_out_reg = 0;
+       end
+       else begin
+           data_out_reg = data_out_reg + data_in;
+       end
+   end
+end
+
+endmodule
+```
+
+In the fixed code, the accumulation is performed before incrementing the count. When 'count' equals 2'b11, the accumulated sum is assigned to 'data_out' and 'data_out_reg' is reset to 0 for the next accumulation.

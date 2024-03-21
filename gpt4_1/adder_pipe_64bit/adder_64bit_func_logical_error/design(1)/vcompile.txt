@@ -1,0 +1,13 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 17:58:13 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module adder_pipe_64bit
+** Error: ./design/design.v(20): (vlog-2730) Undefined variable: 'c2'.
+** Error: ./design/design.v(21): (vlog-2730) Undefined variable: 's2'.
+** Error: ./design/design.v(23): (vlog-2730) Undefined variable: 'stage1'.
+** Error: ./design/design.v(24): (vlog-2730) Undefined variable: 'a2_ff1'.
+** Error: ./design/design.v(24): (vlog-2730) Undefined variable: 'b2_ff1'.
+** Error: ./design/design.v(24): (vlog-2730) Undefined variable: 'c1'.
+-- Compiling module tb
+End time: 17:58:13 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 6, Warnings: 0

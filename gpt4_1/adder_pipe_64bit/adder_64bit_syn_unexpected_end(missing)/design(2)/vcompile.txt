@@ -1,0 +1,9 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 18:06:14 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module adder_pipe_64bit
+** Error: ./design/design.v(60): (vlog-2110) Illegal reference to net "result".
+** Error: ./design/design.v(63): (vlog-2110) Illegal reference to net "result".
+-- Compiling module tb
+End time: 18:06:14 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 2, Warnings: 0

@@ -1,0 +1,8 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 18:03:52 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module adder_pipe_64bit
+** Error: ./design/design.v(74): (vlog-2730) Undefined variable: 'stagee1'.
+-- Compiling module tb
+End time: 18:03:52 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 1, Warnings: 0

@@ -1,0 +1,12 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 19:46:30 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+** Error: (vlog-13069) ./design/design.v(1): near "and": syntax error, unexpected and.
+** Error: (vlog-13057) ./design/design.v(1): Expecting numeric digits.
+** Error: (vlog-13057) ./design/design.v(1): Expecting numeric digits.
+** Error: (vlog-13053) ./design/design.v(1): near "'r": Illegal base specifier in numeric constant.
+** Warning: ./design/design.v(3): (vlog-2638) Bad name or identifier in Verilog compiler directive.  The following text was found where a compiler directive name or macro name was expected.: `.
+** Error: ./design/design.v(3): (vlog-2163) Macro `verilog is undefined.
+-- Compiling module tb
+End time: 19:46:30 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 5, Warnings: 1

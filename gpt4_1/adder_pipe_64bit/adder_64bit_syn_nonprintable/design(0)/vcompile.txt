@@ -1,0 +1,12 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 18:02:19 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module adder_pipe_64bit
+** Error: (vlog-13067) ./design/design.v(72:35): Syntax error, unexpected non-printable character with the hex value '0xef'.
+** Error: (vlog-13067) ./design/design.v(72:36): Syntax error, unexpected non-printable character with the hex value '0xbc'.
+** Error: (vlog-13067) ./design/design.v(72:37): Syntax error, unexpected non-printable character with the hex value '0x89'.
+** Error: (vlog-13069) ./design/design.v(72): near "begin": syntax error, unexpected begin, expecting or or ')' or ','.
+** Error: ./design/design.v(75): (vlog-13205) Syntax error found in the scope following 'stage2'. Is there a missing '::'?
+-- Compiling module tb
+End time: 18:02:20 on Mar 20,2024, Elapsed time: 0:00:01
+Errors: 5, Warnings: 0

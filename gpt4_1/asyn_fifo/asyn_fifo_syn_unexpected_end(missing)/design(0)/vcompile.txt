@@ -1,0 +1,16 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 19:41:36 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module dual_port_RAM
+** Error: (vlog-13069) ./design/design.v(18): near "always": syntax error, unexpected always, expecting ';' or ','.
+** Error: ./design/design.v(55): (vlog-2730) Undefined variable: 'wrstn'.
+** Error: ./design/design.v(59): (vlog-2730) Undefined variable: 'wfull'.
+** Error: ./design/design.v(59): (vlog-2730) Undefined variable: 'winc'.
+** Error: ./design/design.v(63): (vlog-2730) Undefined variable: 'rrstn'.
+** Error: ./design/design.v(67): (vlog-2730) Undefined variable: 'rempty'.
+** Error: ./design/design.v(67): (vlog-2730) Undefined variable: 'rinc'.
+** Error (suppressible): ./design/design.v(127): (vlog-2388) 'waddr' already declared in this scope (dual_port_RAM).
+** Error (suppressible): ./design/design.v(128): (vlog-2388) 'raddr' already declared in this scope (dual_port_RAM).
+-- Compiling module tb
+End time: 19:41:36 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 9, Warnings: 0

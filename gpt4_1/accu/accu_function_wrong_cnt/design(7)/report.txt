@@ -1,0 +1,41 @@
+Sure, here is the corrected Verilog code for the `accu` module:
+
+```verilog
+module	accu(
+    input               clk         ,   
+    input               rst_n       ,
+    input       [7:0]   data_in     ,
+    input               valid_in    ,
+
+    output  reg         valid_out     ,
+    output  reg [9:0]   data_out
+);
+
+    reg [1:0] count;
+    reg [9:0]   data_out_reg;
+
+    always @(posedge clk or negedge rst_n) begin
+        if(!rst_n) begin
+            count <= 2'b00;
+            valid_out <= 1'b0; 
+            data_out_reg <= 10'b0;
+        end
+        else if(valid_in) begin
+            data_out_reg <= data_out_reg + data_in;
+            count <= count + 1;
+            if (count == 2'b11) begin
+                data_out <= data_out_reg;
+                valid_out <= 1'b1;
+                count <= 2'b00;
+                data_out_reg <= 10'b0;
+            end
+            else begin
+                valid_out <= 1'b0;
+                data_out <= 10'b0; // This line is added to reset the data_out when it's not valid
+            end
+        end
+    end
+endmodule
+```
+
+The problem with the initial code was that `data_out` was not reset when `valid_out` was set to `0`. This caused the previously calculated sum to be kept in `data_out`, which led to incorrect results. By adding the line `data_out <= 10'b0;` we make sure that `data_out` is reset every time `valid_out` is set to `0`, ensuring the correct behaviour of the module.

@@ -1,0 +1,11 @@
+adder_64bit_func_blocknonblock
+代码缺少 未检测到
+
+adder_64bit_func_improper_sensignal
+rst_n边沿选择错误 tb未检测
+
+adder_64bit_func_insufficient_bitwidth
+代码缺少 
+
+adder_64bit_syn_unexpected_end(missing)
+代码缺少 同时出现代码获取问题

@@ -1,0 +1,9 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 00:58:36 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module verified_adder_8bit
+** Error: (vlog-13069) ./design/design.v(16): near ".": syntax error, unexpected '.', expecting IDENTIFIER or TYPE_IDENTIFIER or NETTYPE_IDENTIFIER.
+-- Compiling module full_adder
+-- Compiling module tb
+End time: 00:58:36 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 1, Warnings: 0

@@ -1,0 +1,16 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 13:08:45 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module multi_pipe_8bit
+** Error: (vlog-13027) ./design/design.v(29): near "i": Syntax error. 'for' loop variable declaration only allowed in SystemVerilog.
+** Error: ./design/design.v(29): (vlog-2730) Undefined variable: 'i'.
+** Error: (vlog-13069) ./design/design.v(29): near ")": syntax error, unexpected ')', expecting ';'.
+** Error (suppressible): ./design/design.v(43): (vlog-2388) 'i' already declared in this scope (multi_pipe_8bit).
+** Error: (vlog-13069) ./design/design.v(47): near "}": syntax error, unexpected '}'.
+** Error: (vlog-13027) ./design/design.v(54): near "i": Syntax error. 'for' loop variable declaration only allowed in SystemVerilog.
+** Error: (vlog-13069) ./design/design.v(54): near ")": syntax error, unexpected ')', expecting ';'.
+** Error: (vlog-13027) ./design/design.v(59): near "i": Syntax error. 'for' loop variable declaration only allowed in SystemVerilog.
+** Error: (vlog-13069) ./design/design.v(59): near ")": syntax error, unexpected ')', expecting ';'.
+-- Compiling module tb
+End time: 13:08:45 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 9, Warnings: 0

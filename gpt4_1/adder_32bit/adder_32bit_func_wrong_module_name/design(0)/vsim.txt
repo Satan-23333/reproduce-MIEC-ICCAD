@@ -1,0 +1,8 @@
+# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
+# Start time: 17:23:50 on Mar 20,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error: ./design/design.v(19): Module 'CLA_1' is not defined.
+# Optimization failed
+# Error loading design
+# End time: 17:23:51 on Mar 20,2024, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0

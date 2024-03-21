@@ -1,0 +1,10 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 18:01:12 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module adder_pipe_64bit
+** Error (suppressible): ./design/design.v(49): (vlog-2388) 'adda' already declared in this scope (adder_pipe_64bit).
+** Error: (vlog-13069) ./design/design.v(50): near "reg": syntax error, unexpected reg, expecting IDENTIFIER or TYPE_IDENTIFIER or NETTYPE_IDENTIFIER.
+** Error: ./design/design.v(131): (vlog-2730) Undefined variable: 's1'.
+-- Compiling module tb
+End time: 18:01:13 on Mar 20,2024, Elapsed time: 0:00:01
+Errors: 3, Warnings: 0

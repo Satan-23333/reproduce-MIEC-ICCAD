@@ -1,0 +1,14 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 13:00:38 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module multi_booth_8bit
+** Error: (vlog-13069) ./design/design.v(29): near "=": syntax error, unexpected '=', expecting ++ or --.
+** Error: (vlog-13069) ./design/design.v(35): near "else": syntax error, unexpected else.
+** Error: ./design/tb.v(5): Port mode is incompatible with declaration: a
+** Error: ./design/tb.v(5): Port mode is incompatible with declaration: b
+** Error: ./design/tb.v(6): Port mode is incompatible with declaration: clk
+** Error: ./design/tb.v(6): Port mode is incompatible with declaration: reset
+** Error (suppressible): ./design/tb.v(8): (vlog-2388) 'p' already declared in this scope (multi_booth_8bit).
+** Error (suppressible): ./design/tb.v(9): (vlog-2388) 'rdy' already declared in this scope (multi_booth_8bit).
+End time: 13:00:38 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 8, Warnings: 0

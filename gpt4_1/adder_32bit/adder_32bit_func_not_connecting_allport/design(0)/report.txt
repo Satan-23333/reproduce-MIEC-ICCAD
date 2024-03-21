@@ -1,0 +1,86 @@
+Here is the corrected version of the code:
+
+```verilog
+module adder_32bit(A,B,S,C32);
+     input [31:0] A;
+     input [31:0] B;
+     output [31:0] S;
+     output C32;
+
+     wire px1,gx1,px2,gx2;
+     wire c16;
+
+  CLA_16 CLA1(
+      .A(A[15:0]),
+        .B(B[15:0]),
+        .c0(1'b0),
+        .S(S[15:0]),
+        .px(px1),
+        .gx(gx1)
+    );
+
+  CLA_16 CLA2(
+        .A(A[31:16]),
+          .B(B[31:16]),
+          .c0(c16),
+          .S(S[31:16]),
+          .px(px2),
+          .gx(gx2)
+    );
+
+  assign c16 = gx1 ^ (px1 && 1'b0), //c0 = 0
+         C32 = gx2 ^ (px2 && c16);
+endmodule
+
+module CLA_16(A,B,c0,S,px,gx);
+    input [15:0] A;
+    input [15:0] B;
+    input c0;
+    output [15:0] S;
+    output gx,px;
+    wire c4,c8,c12,c16;
+
+    // other parts of code remain unchanged
+    assign c16 = Gm4 ^ (Pm4 & Gm3) ^ (Pm4 & Pm3 & Gm2) ^ (Pm4 & Pm3 & Pm2 & Gm1) ^ (Pm4 & Pm3 & Pm2 & Pm1 & c0);
+endmodule
+
+module adder_4(x,y,c0,c4,F,Gm,Pm);
+      input [3:0] x;
+      input [3:0] y;
+      input c0;
+      output c4,Gm,Pm;
+      output [3:0] F;
+
+      // other parts of code remain unchanged
+endmodule
+
+module CLA(c0,c1,c2,c3,c4,p1,p2,p3,p4,g1,g2,g3,g4);
+
+     input c0,g1,g2,g3,g4,p1,p2,p3,p4;
+     output c1,c2,c3,c4;
+
+     assign c1 = g1 ^ (p1 & c0),
+            c2 = g2 ^ (p2 & g1) ^ (p2 & p1 & c0),
+            c3 = g3 ^ (p3 & g2) ^ (p3 & p2 & g1) ^ (p3 & p2 & p1 & c0),
+            c4 = g4^(p4&g3)^(p4&p3&g2)^(p4&p3&p2&g1)^(p4&p3&p2&p1&c0);
+endmodule
+
+module adder(X,Y,Cin,F,Cout);
+
+  input X,Y,Cin;
+  output F,Cout;
+
+  assign F = X ^ Y ^ Cin;
+  assign Cout = (X ^ Y) & Cin | X & Y;
+endmodule
+```
+
+The main errors were:
+
+1. Indexing: Verilog indexing starts from 0. So, for a 32-bit port, it should be [31:0] and not [32:1].
+
+2. Carry propagation: The carry-out of the first 16-bit CLA block (CLA1) should be used as carry-in for the second 16-bit CLA block (CLA2).
+
+3. In the CLA_16 module, c16 is being calculated which is the overall carry of the 16-bit adder.
+
+Please verify the functionality of this code in your system.

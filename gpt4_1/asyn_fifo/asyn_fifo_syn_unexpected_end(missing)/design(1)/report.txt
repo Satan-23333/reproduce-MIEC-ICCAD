@@ -1,0 +1,55 @@
+The error in the design code is due to the presence of an extra "module" keyword before defining the main module asyn_fifo. Here is the corrected design code:
+
+```verilog
+module	dual_port_RAM #(parameter DEPTH = 16,  parameter WIDTH = 8)
+(
+	 input wclk,
+	 input wenc,
+	 input [$clog2(DEPTH)-1:0] waddr,
+	 input [WIDTH-1:0] wdata,
+	 input rclk,
+	 input renc,
+	 input [$clog2(DEPTH)-1:0] raddr,
+	 output reg [WIDTH-1:0] rdata 		
+);
+
+reg [WIDTH-1:0] RAM_MEM [0:DEPTH-1];
+
+always @(posedge wclk) begin
+	if(wenc)
+		RAM_MEM[waddr] <= wdata;
+end 
+
+always @(posedge rclk) begin
+	if(renc)
+		rdata <= RAM_MEM[raddr];
+end 
+
+endmodule
+
+module asyn_fifo#(
+	parameter	WIDTH = 8,
+	parameter 	DEPTH = 16
+)(
+	input 					wclk, 
+	input 					rclk,   
+	input 					wrstn,
+	input					rrstn,
+	input 					winc,
+	input 			 		rinc,
+	input 		[WIDTH-1:0]	wdata,
+
+	output wire				wfull,
+	output wire				rempty,
+	output wire [WIDTH-1:0]	rdata
+);
+
+parameter ADDR_WIDTH = $clog2(DEPTH);
+
+reg [ADDR_WIDTH:0]	waddr_bin;
+reg [ADDR_WIDTH:0]	raddr_bin;
+
+// remaining code here...
+```
+
+The extra "module" keyword was removed and now the main module asyn_fifo starts correctly. Please compile this code again to confirm if the error is resolved.

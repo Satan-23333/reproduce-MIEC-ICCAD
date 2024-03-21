@@ -1,0 +1,114 @@
+The error in the simulation report indicates that the module 'dual_port_RAM' is not defined. This module is required as it is instantiated in the 'asyn_fifo' module. 
+
+Here is the definition of the 'dual_port_RAM' module and the corrected 'asyn_fifo' module.
+
+```verilog
+module dual_port_RAM #(
+    parameter DEPTH = 16, 
+    parameter WIDTH = 8
+)(
+    input wclk,
+    input wenc,
+    input [$clog2(DEPTH)-1:0] waddr,
+    input [WIDTH-1:0] wdata,
+    input rclk,
+    input renc,
+    input [$clog2(DEPTH)-1:0] raddr,
+    output reg [WIDTH-1:0] rdata
+);
+    reg [WIDTH-1:0] RAM_MEM [0:DEPTH-1];
+    always @(posedge wclk) begin
+        if (wenc) RAM_MEM[waddr] <= wdata;
+    end
+    always @(posedge rclk) begin
+        if (renc) rdata <= RAM_MEM[raddr];
+    end
+endmodule
+
+
+module	asyn_fifo#(
+    parameter WIDTH = 8,
+    parameter DEPTH = 16
+)(
+    input wclk,
+    input rclk,
+    input wrstn,
+    input rrstn,
+    input winc,
+    input rinc,
+    input [WIDTH-1:0] wdata,
+
+    output wire wfull,
+    output wire rempty,
+    output wire [WIDTH-1:0] rdata
+);
+
+    // Internal signal definitions
+    reg [$clog2(DEPTH):0] waddr, raddr;
+    wire [$clog2(DEPTH):0] waddr_bin, raddr_bin;
+    reg [$clog2(DEPTH):0] waddr_gray, raddr_gray;
+    reg [$clog2(DEPTH):0] wptr, rptr;
+    reg [$clog2(DEPTH):0] wptr_buff1, wptr_buff2, rptr_buff1, rptr_buff2;
+    wire [$clog2(DEPTH):0] wptr_bin, rptr_bin;
+
+    // Module instantiation
+    dual_port_RAM #(.DEPTH(DEPTH), .WIDTH(WIDTH)) RAM(
+        .wclk(wclk),
+        .wenc(winc),
+        .waddr(waddr_bin),
+        .wdata(wdata),
+        .rclk(rclk),
+        .renc(rinc),
+        .raddr(raddr_bin),
+        .rdata(rdata)
+    );
+
+    // Pointer increment
+    always @(posedge wclk or negedge wrstn) begin
+        if (~wrstn)
+            waddr <= 0;
+        else if (winc && !wfull)
+            waddr <= waddr + 1;
+    end
+
+    always @(posedge rclk or negedge rrstn) begin
+        if (~rrstn)
+            raddr <= 0;
+        else if (rinc && !rempty)
+            raddr <= raddr + 1;
+    end
+
+    // Convert to Gray code
+    always @(waddr)
+        waddr_gray <= waddr ^ (waddr >> 1);
+
+    always @(raddr)
+        raddr_gray <= raddr ^ (raddr >> 1);
+
+    // Synchronize pointers
+    always @(posedge wclk or negedge wrstn) begin
+        if (~wrstn)
+            wptr <= 0;
+        else
+            wptr <= waddr_gray;
+    end
+
+    always @(posedge rclk or negedge rrstn) begin
+        if (~rrstn)
+            rptr <= 0;
+        else
+            rptr <= raddr_gray;
+    end
+
+    // FIFO full and empty flags
+    assign wfull = (wptr == (~rptr[WIDTH] & {rptr[WIDTH-1:0], 1'b1}));
+    assign rempty = (wptr == rptr);
+
+    // Binary address for RAM
+    assign waddr_bin = waddr[WIDTH-1:0];
+    assign raddr_bin = raddr[WIDTH-1:0];
+
+endmodule
+```
+
+The 'dual_port_RAM' module was defined and added to the top of the code. The rest of the code is unchanged. The 'dual_port_RAM' module is a simple dual port RAM with separate write and read ports. It uses the write enable (wenc) and read enable (renc) signals to control write and read operations, respectively. The write data (wdata) is stored in the RAM at the write address (waddr) on the rising edge of the write clock (wclk). The read data (rdata) is loaded from the RAM at the read address (raddr) on the rising edge of the read clock (rclk).

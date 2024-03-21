@@ -1,0 +1,17 @@
+Model Technology ModelSim SE-64 vlog 10.7 Compiler 2017.12 Dec  7 2017
+Start time: 17:10:39 on Mar 20,2024
+vlog -work work ./design/design.v ./design/tb.v -l vcompile.txt 
+-- Compiling module adder_32bit
+-- Compiling module CLA_16
+-- Compiling module adder_4
+** Error: ./design/design.v(124): (vlog-2884) Bit-select into 'x' is out of bounds.
+** Error: ./design/design.v(125): (vlog-2884) Bit-select into 'y' is out of bounds.
+** Warning: ./design/design.v(152): (vlog-2576) [BSOB] - Bit-select into 'x' is out of bounds.
+** Warning: ./design/design.v(152): (vlog-2576) [BSOB] - Bit-select into 'y' is out of bounds.
+** Warning: ./design/design.v(157): (vlog-2576) [BSOB] - Bit-select into 'x' is out of bounds.
+** Warning: ./design/design.v(157): (vlog-2576) [BSOB] - Bit-select into 'y' is out of bounds.
+-- Compiling module CLA
+-- Compiling module adder
+-- Compiling module tb
+End time: 17:10:39 on Mar 20,2024, Elapsed time: 0:00:00
+Errors: 2, Warnings: 4

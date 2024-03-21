@@ -1,0 +1,55 @@
+module	adder_pipe_64bit
+#(
+    parameter DATA_WIDTH = 64,
+    parameter STG_WIDTH = 16
+)
+(
+    input clk,
+    input rst_n,
+    input i_en,
+    input [DATA_WIDTH-1:0] adda,
+    input [DATA_WIDTH-1:0] addb,
+    output reg [DATA_WIDTH:0] result,
+    output reg o_en
+);
+
+// Define internal signals
+reg [DATA_WIDTH:0] sum;
+reg [STG_WIDTH-1:0] s1, s2, s3, s4;
+reg carry1, carry2, carry3, carry4;
+
+// Pipeline register and Addition operation
+always @(posedge clk or negedge rst_n)
+begin
+    if(~rst_n)
+    begin
+        s1 <= 0;
+        s2 <= 0;
+        s3 <= 0;
+        s4 <= 0;
+        carry1 <= 0;
+        carry2 <= 0;
+        carry3 <= 0;
+        carry4 <= 0;
+        sum <= 0;
+        o_en <= 0;
+    end
+    else if(i_en)
+    begin
+        {carry1, s1} <= adda[STG_WIDTH-1:0] + addb[STG_WIDTH - 1:0];
+        {carry2, s2} <= adda[2*STG_WIDTH-1:STG_WIDTH] + addb[2*STG_WIDTH-1:STG_WIDTH] + carry1;
+        {carry3, s3} <= adda[3*STG_WIDTH-1:2*STG_WIDTH] + addb[3*STG_WIDTH-1:2*STG_WIDTH] + carry2;
+        {carry4, s4} <= adda[DATA_WIDTH-1:3*STG_WIDTH] + addb[DATA_WIDTH-1:3*STG_WIDTH] + carry3;
+        sum <= {carry4, s4, s3, s2, s1};
+        o_en <= 1;
+    end
+    else
+    begin
+        o_en <= 0;
+    end
+end
+
+// Assign result
+assign result = sum;
+
+endmodule
