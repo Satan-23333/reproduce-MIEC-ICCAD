@@ -18,9 +18,9 @@ class GPT:
             OpenAI_API = api.read()
         self.client = OpenAI(api_key=OpenAI_API, base_url=self.proxy_url)
 
-        with open(self.filename, "w") as file:
-            json.dump({}, file)
-        print(f"Save to the '{self.filename}'.json file successfully")
+        # with open(self.filename, "w") as file:
+        #     json.dump({}, file)
+        # print(f"Save to the '{self.filename}'.json file successfully")
 
     def save_json(self,data):
         # read raw json file 
