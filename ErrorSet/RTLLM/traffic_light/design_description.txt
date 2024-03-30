@@ -1,4 +1,4 @@
-Please act as a professional verilog designer.
+Please act as an expert in Verilog debugging and code modification.
 
 Implement a traffic light, with red, yellow and green three small indicators and a pedestrian button, under normal circumstances, the motor vehicle lane indicator light according to 60 clock cycles of green, 5 clock cycles of yellow, 10 clock cycles of red. When the pedestrian button is pressed, if the remaining green time is greater than 10 clocks, it is shortened to 10 clocks, and if it is less than 10 clocks, it remains unchanged. The lane light and the sidewalk light should be paired, when the lane light is green or yellow, the sidewalk light is red; When the lane light is red, the sidewalk light is green, and for the sake of simplicity, only the lane light is considered.
 
@@ -39,4 +39,5 @@ Otherwise, the counter is decremented normally.
 The assign statement assigns the value of the internal counter (cnt) to the output clock.
 The final always block handles the output signals. It assigns the previous values (p_red, p_yellow, p_green) to the output signals (red, yellow, green) on the positive edge of the clock or negative edge of the reset signal.
 
-Give me the complete code.
+Modify the error design code below.
+

@@ -37,42 +37,61 @@ module tb;
     // Perform reset
     rst_n = 0;
     #10;
+    error = (clock==10)&&(red===0)&&(yellow===0)&&(green===0) ?error :error+1;
+    if(error!=0)begin
+      $display("This is testbench: the expected result clock=10, red=0, yellow=0, green=0; but the actual result clock=%d, red=%d, yellow=%d, green=%d",clock,red,yellow,green);
+      $finish;
+    end
     rst_n = 1;
     #30;
     
-    // test red
-    $display("At time %t, clock = %d, red = %b, yellow = %b, green = %b", 
-               $time, clock, red, yellow, green);
-    error = (red==1)&&(yellow==0)&&(green==0) ?error :error+1;
+    // test redt
+    error = (clock==10)&&(red==1)&&(yellow==0)&&(green==0) ?error :error+1;
+    if(error!=0)begin
+      $display("This is testbench: the expected result clock=10, red=1, yellow=0, green=0; but the actual result clock=%d, red=%d, yellow=%d, green=%d",clock,red,yellow,green);
+      $finish;
+    end
     #100;
     // test green
-    $display("At time %t, clock = %d, red = %b, yellow = %b, green = %b", 
-               $time, clock, red, yellow, green);
-    error = (red==0)&&(yellow==0)&&(green==1) ?error :error+1;
+    error = (clock==60)&&(red==0)&&(yellow==0)&&(green==1) ?error :error+1;
+    if(error!=0)begin
+      $display("This is testbench: the expected result clock=60, red=0, yellow=0, green=1; but the actual result clock=%d, red=%d, yellow=%d, green=%d",clock,red,yellow,green);
+      $finish;
+    end
     #600;
     // test yellow
-    $display("At time %t, clock = %d, red = %b, yellow = %b, green = %b", 
-               $time, clock, red, yellow, green);
-    error = (red==0)&&(yellow==1)&&(green==0) ?error :error+1;
+    error = (clock==5)&&(red==0)&&(yellow==1)&&(green==0) ?error :error+1;
+    if(error!=0)begin
+      $display("This is testbench: the expected result clock=5, red=0, yellow=1, green=0; but the actual result clock=%d, red=%d, yellow=%d, green=%d",clock,red,yellow,green);
+      $finish;
+    end
     #150;
-    $display("At time %t, clock = %d, red = %b, yellow = %b, green = %b", 
-               $time, clock, red, yellow, green);
     clock_cnt = clock;
+    error = (clock==60)&&(red==0)&&(yellow==0)&&(green==1) ?error :error+1;
+    if(error!=0)begin
+      $display("This is testbench: the expected result clock=60, red=0, yellow=0, green=1; but the actual result clock=%d, red=%d, yellow=%d, green=%d",clock,red,yellow,green);
+      $finish;
+    end
     // test pass_request
     #30;
-    $display("At time %t, clock = %d, red = %b, yellow = %b, green = %b", 
-               $time, clock, red, yellow, green);
     error = (clock!=(clock_cnt+3)) ?error :error+1;
+    error = (clock==57)&&(red==0)&&(yellow==0)&&(green==1) ?error :error+1;
+    if(error!=0)begin
+      $display("This is testbench: the expected result clock=57, red=0, yellow=0, green=1; but the actual result clock=%d, red=%d, yellow=%d, green=%d",clock,red,yellow,green);
+      $finish;
+    end
     pass_request = 1;
     #10;
-    $display("At time %t, clock = %d, red = %b, yellow = %b, green = %b", 
-               $time, clock, red, yellow, green);
-    error = (clock==10)&&(green==1) ?error :error+1;
+    error = (clock==10)&&(red==0)&&(yellow==0)&&(green==1) ?error :error+1;
+    if(error!=0)begin
+      $display("This is testbench: the expected result clock=10, red=0, yellow=0, green=1; but the actual result clock=%d, red=%d, yellow=%d, green=%d",clock,red,yellow,green);
+      $finish;
+    end
     if (error == 0) begin
       $display("===========Your Design Passed===========");
     end
     else begin
-    $display("===========Test completed with %d /5failures===========", error);
+    $display("===========Test completed with %d /7failures===========", error);
     end
 
     $finish; // End of test
