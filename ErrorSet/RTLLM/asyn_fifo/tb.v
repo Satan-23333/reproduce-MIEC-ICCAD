@@ -63,13 +63,17 @@ module tb;
     // outfile1 = $fopen("wfull.txt", "w");
     // outfile2 = $fopen("rempty.txt", "w");
     // outfile3 = $fopen("tdata.txt", "w");
-    repeat(48) begin
+    for(i=0;i<48;i=i+1) begin
       #10;
       // $fwrite(outfile1, "%h\n", wfull);
       // $fwrite(outfile2, "%h\n", rempty);
       // $fwrite(outfile3, "%h\n", rdata);
       error = (wfull==data1[i] && rempty == data2[i] && rdata ==data3[i]) ? error:error+1;
-      i = i + 1;
+      if(error!==0)begin
+        $display("This is testbench: expected result is wfull=32'H%h, rempty=32'H%h, rdata=8'H%h, but the actual result is wfull=32'H%h, rempty=32'H%h, rdata=8'H%h; please fix the error",data1[i],data2[i],data3[i],wfull,rempty,rdata);
+        $finish;
+      end 
+      
     end
     if(error==0)
       begin
