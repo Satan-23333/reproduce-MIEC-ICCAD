@@ -1,4 +1,4 @@
-Please act as a professional verilog designer.
+Please act as an expert in Verilog debugging and code modification.
 
 Implement a module of an 8-bit adder with multiple bit-level adders in combinational logic. 
 
@@ -15,5 +15,6 @@ Output ports:
 Implementation:
 The module utilizes a series of bit-level adders (full adders) to perform the addition operation.
 
-Give me the complete code.
+Modify the error design code below.
+
  

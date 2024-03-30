@@ -24,6 +24,27 @@ module tb;
   reg [7:0]num_b[0:39];
   reg num_cin[0:39];
   reg [8:0]result[0:39];
+    // Randomize inputs and check output
+  initial begin
+    for (i = 0; i < 40; i = i + 1) begin
+        a = num_a[i];
+        b = num_b[i];
+        cin = num_cin[i];
+        #10;
+        error = ({cout,sum} !== result[i]) ? error+1 : error;
+        if(error!=0)begin
+            $display("This is testbench input: a=8'H%h, b=8'H%h, cin=1'b%b, and expected_result=9'H%h, but the result is data_out=9'H%h; please fix the error",num_a[i],num_b[i],num_cin[i],result[i],{cout,sum});
+            $finish;
+        end      
+    end
+    if (error == 0) begin
+      $display("===========Your Design Passed===========");
+    end
+    else begin
+      $display("===========Test completed with %d /100 failures===========", error);
+    end
+
+  end
   
     initial begin
 num_a[0] = 8'H95;
@@ -189,23 +210,5 @@ result[39] = 9'H1C1;
 
     end
 
-
-  // Randomize inputs and check output
-  initial begin
-    for (i = 0; i < 40; i = i + 1) begin
-        a = num_a[i];
-        b = num_b[i];
-        cin = num_cin[i];
-        #10;
-        error = ({cout,sum} !== result[i]) ? error+1 : error; 
-    end
-    if (error == 0) begin
-      $display("===========Your Design Passed===========");
-    end
-    else begin
-      $display("===========Test completed with %d /40failures===========", error);
-    end
-
-  end
 
 endmodule
