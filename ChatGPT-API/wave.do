@@ -27,14 +27,14 @@ vmap     work ./lib/work
 #主要是编译设计文件，测试文件，调用的IP核.v文件，相应的库文件，通配符./../xxx/*.v，要注意编译的顺序
 #注意，.v文件应该是放在设计或者仿真的文件里面，不要仿真逻辑库路径里面，逻辑库路径在编译之后会自然得复制过来
 #-l参数 输出编译过程中的信息到文件中
-vlog    -work    work    ./design/*.v -l vcompile.txt
+vlog    -work    work    ./design/*.v -l ./design/vcompile.txt
 
 #⑥编译完后启动仿真，语法格式为vsim –lib <library name>.<top level design>，
 #下面的代码意思是：优化部分参数(-voptargs=+acc)，链接到默认的work 库，启动仿真顶层测试逻辑库(work)里面的tb文件
 #-l参数 输出仿真过程中的信息到文件中
 #-wlf参数 保存波形文件
 #可以用log /* -r保存所有信号波形
-vsim    -voptargs=+acc    work.tb -l ./vsim.txt -wlf ./vsim.wlf
+vsim    -voptargs=+acc    work.tb -l ./design/vsim.txt -wlf ./vsim.wlf
 log /* -r
 
 #⑦添加波形与分割线。
