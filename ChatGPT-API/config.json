@@ -1,9 +1,0 @@
-{
-    "Design_name" : "adder_8bit_function_missing_port_connectio",
-    "Design_File": "design.v",
-    "Spec_File": "design_description.txt",
-    "Testbench_File": "tb.v",
-
-    "Work_Dir_name":"workdir",
-    "Origin_design_path":"design"
-}
