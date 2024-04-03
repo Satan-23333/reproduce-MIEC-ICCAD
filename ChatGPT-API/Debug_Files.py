@@ -18,16 +18,17 @@ class DEBUG_FILES:
         self.Spec = Config_data.get("Spec_File")
         self.Testbench = Config_data.get("Testbench_File")
         self.Origin_design_path = Config_data.get("Origin_design_path")
+        print(os.getcwd())
         with open(
-            self.Origin_design_path + "/" + self.Design, "r", encoding="utf-8"
+            self.Origin_design_path + "\\" + self.Design, "r", encoding="utf-8"
         ) as file:
             self.Design_Content = file.read()
         with open(
-            self.Origin_design_path + "/" + self.Spec, "r", encoding="utf-8"
+            self.Origin_design_path + "\\" + self.Spec, "r", encoding="utf-8"
         ) as file:
             self.Spec_Content = file.read()
         with open(
-            self.Origin_design_path + "/" + self.Testbench, "r", encoding="utf-8"
+            self.Origin_design_path + "\\" + self.Testbench, "r", encoding="utf-8"
         ) as file:
             self.Testbench_Content = file.read()
 

@@ -122,7 +122,7 @@ def code_fetch(text):
     code = ""
     for match in matches:
         result = find_until_no_target(match.group())
-        code = "".join([code, "module\t", result, "endmodule\n"])
+        code = "".join([code, "module ", result, "endmodule\n"])
         # print(code)
     return code
 
@@ -132,3 +132,24 @@ def score_fetch(code):
     score = re.findall(pattern2, code)
     return score
 
+def collect_design(path, ignore=["tb", "testbench"]):
+    """收集文件夹下的所有.v后缀文件，默认忽略tb和testbench"""
+    design_files = []
+    files = os.listdir(path)
+    for file in files:
+        if ignore and any(i.lower() in file.lower() for i in ignore):
+            continue
+        if os.path.splitext(file)[1] == ".v":
+            # design_files.append(os.path.join(path, file))
+            design_files.append(file)
+    return design_files
+
+
+def collect_dirname(path):
+    """收集文件夹下的所有文件夹"""
+    dirnames = []
+    files = os.listdir(path)
+    for file in files:
+        if os.path.isdir(os.path.join(path, file)):
+            dirnames.append(file)
+    return dirnames
