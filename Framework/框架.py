@@ -58,7 +58,7 @@ def Start_Debug(json_data):
     modelsim_done(work_path)
 
     max_i = 10
-    GPT = GPTs.GPTS("DebugGPT")
+    GPT = GPTs.GPTS("DebugGPT")#,"asst_8nl7vABDrwbFr0wdCGLhKdJw")
     ScoreGPT = Normal_GPT.GPT("ScoreGPT")
     # 如果使用gpts模型则使用下面的代码
     # ScoreGPT = GPTs.GPTS("ScoreGPT")
@@ -90,7 +90,7 @@ def Start_Debug(json_data):
                 + "\nOffer just corrected Verilog design code without testbench, no explanation. "
             )
             # FIX = ''
-            # print("\n-GPTFIXer:\n" + FIX.content)
+            print("\n-GPTFIXer:\n" + FIX)
 
             # 从回答中提取代码
             filelineTemp = len(design.split("\n"))
@@ -113,6 +113,7 @@ def Start_Debug(json_data):
                     # 如果使用gpts模型则使用下面的代码
                     # scoretext = ScoreGPT.ASK_GPTs(code)
                     score = score_fetch(scoretext)
+                    print("\n-System: The score is " + score[0])
 
                     if float(score[0]) > 40:
                         print("\n-System: Move on")
@@ -168,12 +169,13 @@ if __name__ == "__main__":
     Config_path = Root_path + "\\config.json"
     with open(Config_path, "r", encoding="utf-8") as f:
         json_data = json.load(f)
-    dir_names = collect_dirname("RTLLM")
-    for i in dir_names:
-        json_data["Work_Dir_name"] = "workdir\\" + i
-        json_data["Origin_design_path"] = "RTLLM\\" + i
-        design_files = collect_design("RTLLM\\" + i)
-        for j in design_files:
-            json_data["Design_name"] = j.split(".")[0]
-            json_data["Design_File"] = j
-            Start_Debug(json_data)
+    Start_Debug(json_data)
+    # dir_names = collect_dirname("RTLLM")
+    # for i in dir_names:
+    #     json_data["Work_Dir_name"] = "workdir\\" + i
+    #     json_data["Origin_design_path"] = "RTLLM\\" + i
+    #     design_files = collect_design("RTLLM\\" + i)
+    #     for j in design_files:
+    #         json_data["Design_name"] = j.split(".")[0]
+    #         json_data["Design_File"] = j
+    #         Start_Debug(json_data)

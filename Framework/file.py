@@ -117,12 +117,14 @@ def find_until_no_target(text):
 
 
 def code_fetch(text):
-    pattern = r"(?<=module)[\s\S]*?(?=endmodule)"
-    matches = re.finditer(pattern, text)
+    # pattern = r"(?<=module)[\s\S]*?(?=endmodule)"
+    # matches = re.finditer(pattern, text)
+    pattern = r"```verilog(.*?)```"
+    matches = re.findall(pattern, text, re.DOTALL | re.IGNORECASE)
     code = ""
     for match in matches:
-        result = find_until_no_target(match.group())
-        code = "".join([code, "module ", result, "endmodule\n"])
+        # result = find_until_no_target(match.group())
+        code += match
         # print(code)
     return code
 
