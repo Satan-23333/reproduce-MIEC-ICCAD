@@ -33,7 +33,7 @@ class EventHandler(AssistantEventHandler):
 
 class GPTS:
     proxy_url = "https://gpt-api.satan2333.icu/v1"
-
+    # proxy_url= "https://api.ioii.cn/v1"
     try:
         current_dir = os.path.dirname(os.path.realpath(__file__))
     except:
@@ -84,7 +84,9 @@ class GPTS:
 
         Returns:
             str: gpt的响应
+            float: gpt的响应时间
         """
+        ask_start_time = time.time()
         self.user_msg["content"] = data
         self.message.append(self.user_msg)
         ask_time = datetime.now().strftime("%H:%M:%S")
@@ -105,7 +107,7 @@ class GPTS:
             run = self.client.beta.threads.runs.create(
                 thread_id=self.thread_id,
                 assistant_id=self.ASSISTANT_ID,
-                instructions="Please address the user as Jane Doe. The user has a premium account.",
+                # instructions="Please address the user as Jane Doe. The user has a premium account.",
             )
             while run.status in ["queued", "in_progress", "cancelling"]:
                 time.sleep(1)  # Wait for 1 second
@@ -128,7 +130,8 @@ class GPTS:
         self.json_content[response_time] = [{"GPTS": gpt_res}]
         self.save_json()
         # self.save_json(completion.choices[0].message)
-        return self.gpt_msg["content"]
+        ask_end_time = time.time()
+        return self.gpt_msg["content"], ask_end_time - ask_start_time
 
     def History(self, num=-1) -> str:
         """
@@ -146,14 +149,14 @@ class GPTS:
 if __name__ == "__main__":
     # message = []
     # gpt_msg = []
-    GPTS = GPTS("gpts","asst_s5cPvWF1Q7uQsRJpLFBg4E8w")
+    GPTS = GPTS("gpts")#,"asst_8nl7vABDrwbFr0wdCGLhKdJw",)
     try:
         while True:
             user_input = input("\n-User: ").strip()
             if user_input == "exit" or user_input == "退出":
                 break
             gpt_res = GPTS.ASK_GPTs(user_input, stream=True)
-            # print("\n-GPT: " + gpt_res)
+            print("\n-GPT: " + gpt_res)
             # print(GPT.History(-2))
     except Exception as e:
         print(e)

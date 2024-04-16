@@ -2,6 +2,7 @@
 from openai import OpenAI
 import os
 import json
+import time
 from datetime import datetime
 
 
@@ -100,9 +101,10 @@ class GPT:
 
     def Get_Code_Score(self, spec, code0, code1, temperture=0.7):
         """
-        - 返回代码质量评分
+        - 返回代码质量评分,以及评分时间
         - code -> str
         """
+        score_start_time = time.time()
         # scoretext = self.ASK_GPT_Single(
         #     temperture=temperture,
         #     message=[
@@ -135,7 +137,8 @@ modified code: (total score)""",
                 },  #
             ],
         )
-        return scoretext
+        score_end_time = time.time()
+        return scoretext, score_end_time - score_start_time
 
     def History(self, num=-1):
         """
