@@ -1,11 +1,11 @@
 `timescale 1ns/1ns
 
-module verified_traffic_light
+module traffic_light
     (
       input rst_n, 
       input clk, 
       input pass_request,
-      output wire[7:0]clock
+      output wire[7:0]clock,
       output reg red,
       output reg yellow,
       output reg green
@@ -42,7 +42,7 @@ always @(posedge clk or negedge rst_n)
 				p_red  = 1'b1;
 				p_green  = 1'b0;
 				p_yellow  = 1'b0;
-				if (cnt == 3) 
+				if (cnt == 3) //wait for a count of 3
 					state  = s3_green;
 				else
 					state  = s1_red;
@@ -52,7 +52,7 @@ always @(posedge clk or negedge rst_n)
 				p_red  = 1'b0;
 				p_green  = 1'b0;
 				p_yellow  = 1'b1;
-				if (cnt == 3) 
+				if (cnt == 3) //wait for a count of 3
 					state  = s1_red;
 				else
 					state  = s2_yellow;
@@ -62,7 +62,7 @@ always @(posedge clk or negedge rst_n)
 				p_red  = 1'b0;
 				p_green  = 1'b1;
 				p_yellow  = 1'b0;
-				if (cnt == 3) 
+				if (cnt == 3) //wait for a count of 3
 					state  = s2_yellow;
 				else
 					state  = s3_green;
