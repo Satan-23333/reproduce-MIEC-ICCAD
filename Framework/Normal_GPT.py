@@ -7,6 +7,7 @@ from datetime import datetime
 
 class GPT:
     proxy_url = "https://gpt-api.satan2333.icu/v1"
+    # proxy_url = "https://api.ioii.cn/v1"
 
     try:
         current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -16,11 +17,11 @@ class GPT:
     user_msg = {"role": "user", "content": ""}
     gpt_msg = {"role": "assistant", "content": ""}
 
-    def __init__(self,log_name) -> None:
+    def __init__(self, log_name) -> None:
         with open(self.current_dir + "\\api.ini", "r") as api:
             OpenAI_API = api.read()
         self.client = OpenAI(api_key=OpenAI_API, base_url=self.proxy_url)
-            # 获取当前时间并格式化为字符串
+        # 获取当前时间并格式化为字符串
         self.init_time = datetime.now().strftime("%Y-%m-%d_%H-%M")
         self.json_name = f"{log_name}_{self.init_time}.json"
 
@@ -80,7 +81,7 @@ class GPT:
         - 单次和gpt交互,不发送对话历史
         - 返回gpt的响应
         - 同时将输入输出存入json
-        
+
         Args:
         - temperture -> float
         - message -> list
@@ -97,23 +98,41 @@ class GPT:
         self.save_json()
         return gpt_res.content
 
-    def Get_Code_Score(self, code, temperture=0.7):
+    def Get_Code_Score(self, spec, code0, code1, temperture=0.7):
         """
         - 返回代码质量评分
         - code -> str
         """
+        # scoretext = self.ASK_GPT_Single(
+        #     temperture=temperture,
+        #     message=[
+        #         {
+        #             "role": "system",
+        #             "content": "You are an expert in HDL design, especially skilled in verilog code writing, correction and explanation.",
+        #         },  #
+        #         {
+        #             "role": "user",
+        #             "content": "Give a number to score the code quality, in range of {0, 100}. A number needed only!!! For example, '100' for the code which is correct, '0' is the opposite.Values in the middle represent imperfect parts of the code",
+        #         },  #
+        #         {"role": "user", "content": code},
+        #     ],
+        # )
         scoretext = self.ASK_GPT_Single(
-            temperture = temperture,
             message=[
                 {
                     "role": "system",
-                    "content": "You are an expert in HDL design, especially skilled in verilog code writing, correction and explanation.",
+                    "content": """You are an expert in HDL design, especially skilled in verilog code writing, correction and explanation.
+                    The user will provide you with a designed Spec (design description), as well as an original code and a modified code.
+                    Please rate these two codes according to syntax and functionality, ranging from 0 to 100.
+                    Only the total score of the two is given, no introduction is needed
+                    Answer in the following format:
+original code: (total score)
+modified code: (total score)""",
                 },  #
                 {
                     "role": "user",
-                    "content": "Give a number to score the code quality, in range of {0, 100}. A number needed only!!! For example, '100' for the code which is correct, '0' is the opposite.Values in the middle represent imperfect parts of the code",
+                    "content": f"The Spec(design description) is\n\n{spec}\n\nThe original code is\n\n{code0}\n\nThe modified code is\n\n{code1}",
                 },  #
-                {"role": "user", "content": code},
             ],
         )
         return scoretext
