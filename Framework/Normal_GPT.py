@@ -49,7 +49,7 @@ class GPT:
         self.message.append(self.user_msg)
         ask_time = datetime.now().strftime("%H:%M:%S")
         completion = self.client.chat.completions.create(
-            model="gpt-3.5-turbo", messages=self.message
+            model="gpt-4-turbo", messages=self.message
         )
         gpt_res = completion.choices[0].message
         self.gpt_msg["role"] = gpt_res.role
@@ -89,7 +89,7 @@ class GPT:
         """
         ask_time = datetime.now().strftime("%H:%M:%S")
         completion = self.client.chat.completions.create(
-            model="gpt-3.5-turbo", temperature=temperture, messages=message
+            model="gpt-4-turbo", temperature=temperture, messages=message
         )
         gpt_res = completion.choices[0].message
         response_time = datetime.now().strftime("%H:%M:%S")

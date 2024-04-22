@@ -2,6 +2,7 @@ import os
 import json
 import time
 from datetime import datetime
+import tqdm
 
 from file import *
 import Debug_Files as DF
@@ -88,8 +89,10 @@ def Start_Debug(json_data):
     modelsim_done(work_path)
     Sim_time_list.append(One_sim_time)
 
-    max_i = 10
-    GPT = GPTs.GPTS("DebugGPT")  # ,"asst_8nl7vABDrwbFr0wdCGLhKdJw")
+    max_i = 11
+    GPT = GPTs.GPTS(
+        "DebugGPT", "asst_HvM228Prmecq2ILVkS7GkLYx"
+    )  # ,"asst_8nl7vABDrwbFr0wdCGLhKdJw")
     ScoreGPT = Normal_GPT.GPT("ScoreGPT")
     # 如果使用gpts模型则使用下面的代码
     # ScoreGPT = GPTs.GPTS("ScoreGPT")
@@ -116,13 +119,17 @@ def Start_Debug(json_data):
                 Question = f"The Spec(design description) is\n\n{spec}\n\nThe Design Code is\n\n{design}\n\nThe Compile Report is\n\n{compile}"
 
             # 与GPT模型交互
-            FIX, One_debug_time = GPT.ASK_GPTs(
-                Question
-                + "\nOffer just corrected Verilog design code without testbench, no explanation. "
-            )
-            # FIX = ''
-            Debug_time_list.append(One_debug_time)
-
+            for _ in range(3):
+                try:
+                    FIX, One_debug_time = GPT.ASK_GPTs(
+                        Question
+                        + "\nOffer just corrected Verilog design code without testbench, no explanation. "
+                    )
+                    # FIX = ''
+                    Debug_time_list.append(One_debug_time)
+                    break
+                except Exception as e:
+                    continue
             print("\n-GPTFIXer:\n" + FIX)
 
             # 从回答中提取代码
@@ -152,7 +159,7 @@ def Start_Debug(json_data):
                     score = score_fetch(scoretext)
                     print("\n-System: " + scoretext)
 
-                    if score[1] > score[0]:
+                    if score[1] + 4 >= score[0]:
                         print("\n-System: Move on")
                         Debug_Files.Create_Testbench(work_design_path)
 
@@ -166,10 +173,12 @@ def Start_Debug(json_data):
                 else:
                     print("\n-System: New code is too short")
                     redo(work_path, i)
+                    i = i - 1
                     Debug_Files.Rollback_Design_Content(work_design_path)
             else:
                 print("\n-System: No code generatedexit")
                 redo(work_path, i)
+                i = i - 1
                 Debug_Files.Rollback_Design_Content(work_design_path)
 
         Debug_end_time = time.time()
@@ -219,12 +228,8 @@ def Start_Debug(json_data):
         return False, "", 0, 0, 0, 0, 0
 
 
-if __name__ == "__main__":
+def main():
     start_time = time.time()
-    try:
-        Root_path = os.path.dirname(os.path.realpath(__file__))
-    except:
-        Root_path = os.getcwd()
 
     init_time = datetime.now().strftime("%Y-%m-%d_%H-%M")
     Json_Start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -235,6 +240,7 @@ if __name__ == "__main__":
 
     output_json = os.path.join("Output", f"Output_{init_time}.json")
     output_csv = os.path.join("Output", f"统计_{init_time}.csv")
+
     os.makedirs("Output", exist_ok=True)
 
     Debug_list = []
@@ -288,7 +294,7 @@ if __name__ == "__main__":
                 {
                     "Name": json_data["Design_name"],
                     "Is_Success": bool(Debug_Success),
-                    "Error_type": "syn" if "syn" in design_file else "func",
+                    "Error_type": "func" if "func" in design_file else "syc",
                     "Iterations": Iterations,
                     "Total_time": round(Total_time, 2),
                     "Sim_time": round(Sim_time, 2),
@@ -312,3 +318,12 @@ if __name__ == "__main__":
     output_content["Total time"] = round(end_time - start_time, 2)
     with open(output_json, "w", encoding="UTF-8") as file:
         json.dump(output_content, file, indent=4)
+
+
+if __name__ == "__main__":
+    try:
+        Root_path = os.path.dirname(os.path.realpath(__file__))
+    except:
+        Root_path = os.getcwd()
+    for i in tqdm.tqdm(range(10)):
+        main()
