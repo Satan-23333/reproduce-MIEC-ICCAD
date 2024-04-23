@@ -13,7 +13,7 @@ module serial2parallel(
 	
 	always@(posedge clk or negedge rst_n)begin
 		if(!rst_n)
-			cnt <= 0
+			cnt <= 0;
 		else if(din_valid)
 			cnt <= (cnt == 4'd8)?0:cnt+1'b1;
 		else	
@@ -24,7 +24,7 @@ module serial2parallel(
 		if(!rst_n)
 			din_tmp <= 8'b0;
 		else if(din_valid && cnt <= 4'd7)
-			din_tmp <= {din_tmp[6:0],din_serial};
+			din_tmp <= {din_tmp[8:0],din_serial};
 	
 	end 
 	
