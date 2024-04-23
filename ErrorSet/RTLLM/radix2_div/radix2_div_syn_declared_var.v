@@ -26,6 +26,10 @@ reg [DATAWIDTH*2-1:0] divisor_e  ;
 reg [DATAWIDTH-1:0]   quotient_e ;
 reg [DATAWIDTH-1:0]   remainder_e;
 
+reg ready;
+reg  [DATAWIDTH-1:0] quotient;
+reg  [DATAWIDTH-1:0] remainder;
+reg vld_out;
 
 reg [1:0] current_state,next_state;
 
@@ -33,11 +37,7 @@ reg [DATAWIDTH-1:0] count;
 
 
 always@(posedge clk or negedge rstn)
-  if(!rstn) 
-        begin
-            current_state <= IDLE;
-            next_state <= IDLE;
-        end
+  if(!rstn) current_state <= IDLE;
   else current_state <= next_state;
 
 always @(*) begin

@@ -33,11 +33,7 @@ reg [DATAWIDTH-1:0] count;
 
 
 always@(posedge clk or negedge rstn)
-  if(!rstn) 
-        begin
-            current_state <= IDLE;
-            next_state <= IDLE;
-        end
+  if(!rstn) current_state <= IDLE;
   else current_state <= next_state;
 
 always @(*) begin
@@ -80,7 +76,7 @@ always@(posedge clk or negedge rstn) begin
          count      <= count+1;      
        end
        else begin
-         quotient_e<= dividend_e[DATAWIDTH-1:0];
+         quotient_e<= dividend_e[DATAWIDTH:0];
          remainder_e <= dividend_e[DATAWIDTH*2-1:DATAWIDTH];
        end
      end

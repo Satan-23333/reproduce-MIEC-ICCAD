@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module verified_radix2_div 
+module radix2_div 
 #(
 parameter DATAWIDTH=8
 )

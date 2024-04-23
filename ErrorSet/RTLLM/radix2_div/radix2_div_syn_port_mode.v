@@ -4,17 +4,16 @@ module radix2_div
 #(
 parameter DATAWIDTH=8
 )
-(
-  input                       clk,
-  input                       rstn,
-  input                       en,
-  output  wire                ready,
-  input  [DATAWIDTH-1:0]      dividend,
-  input  [DATAWIDTH-1:0]      divisor,
-  output wire [DATAWIDTH-1:0] quotient,
-  output wire [DATAWIDTH-1:0] remainder,
-  output wire                 vld_out
-);
+(clk,rstn,en,ready,dividend,divisor,quotient,remainder,vld_out);
+  input                       clk;
+  input                       rstn;
+  input                       en;
+  input  [DATAWIDTH-1:0]      dividend;
+  input  [DATAWIDTH-1:0]      divisor;
+  output wire [DATAWIDTH-1:0] quotient;
+  output wire [DATAWIDTH-1:0] remainder;
+  output wire                 vld_out;
+
 
 parameter IDLE =0;
 parameter SUB  =1;
@@ -33,11 +32,7 @@ reg [DATAWIDTH-1:0] count;
 
 
 always@(posedge clk or negedge rstn)
-  if(!rstn) 
-        begin
-            current_state <= IDLE;
-            next_state <= IDLE;
-        end
+  if(!rstn) current_state <= IDLE;
   else current_state <= next_state;
 
 always @(*) begin
