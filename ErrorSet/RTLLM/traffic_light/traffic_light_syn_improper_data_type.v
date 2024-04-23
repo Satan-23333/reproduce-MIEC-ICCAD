@@ -5,7 +5,7 @@ module traffic_light
       input rst_n, 
       input clk, 
       input pass_request,
-      output wire[7:0]clock
+      output wire[7:0]clock,
       output reg red,
       output reg yellow,
       output reg green
@@ -17,7 +17,7 @@ module traffic_light
 				s3_green = 2'd3;
 	reg [7:0] cnt;
 	reg [1:0] state;
-	reg p_red,p_yellow,p_green;	
+	wire p_red,p_yellow,p_green;	
 
 
 always @(posedge clk or negedge rst_n) 

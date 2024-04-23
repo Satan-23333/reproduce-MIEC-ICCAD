@@ -1,11 +1,11 @@
 `timescale 1ns/1ns
 
-module verified_traffic_light
+module traffic_light
     (
       input rst_n, 
       input clk, 
       input pass_request,
-      output wire[7:0]clock
+      output wire[7:0]clock,
       output reg red,
       output reg yellow,
       output reg green
