@@ -13,11 +13,11 @@ module adder_8bit(
     full_adder FA4 (.a(a[4]), .b(b[4]), .cin(c[3]), .sum(sum[4]), .cout(c[4]));
     full_adder FA5 (.a(a[5]), .b(b[5]), .cin(c[4]), .sum(sum[5]), .cout(c[5]));
     full_adder FA6 (.a(a[6]), .b(b[6]), .cin(c[5]), .sum(sum[6]), .cout(c[6]));
-    full_adder FA7 (.a(a[7]), .b(b[7]), .cin(c[6]), .sum(sum[7]), .cout(c[7]));
+    full_adder FA7 (.a(a[8]), .b(b[7]), .cin(c[6]), .sum(sum[7]), .cout(c[7]));
 
     assign cout = c[7]; 
 endmodule
 
 module full_adder (input a, b, cin, output sum, cout);
-    assign {cout, sum} = a + b & cin;
+    assign {cout, sum} = a + b + cin;
 endmodule

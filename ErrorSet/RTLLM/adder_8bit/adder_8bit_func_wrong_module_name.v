@@ -1,4 +1,4 @@
-module verified_adder_8bit(
+module adder_8bit(
     input [7:0] a, b, 
     input cin, 
     output [7:0] sum, 

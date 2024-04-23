@@ -1,8 +1,7 @@
-module adder_8bit(
-    input [7:0] a, b, 
-    input cin, 
-    output [7:0] sum, 
-    output cout);
+module adder_8bit(a,b,cin,sum,cout);
+    input [7:0] a, b;  
+    output [7:0] sum; 
+    output cout;
     
     wire [8:0] c;
 
@@ -19,5 +18,5 @@ module adder_8bit(
 endmodule
 
 module full_adder (input a, b, cin, output sum, cout);
-    assign {cout, sum} = a + b & cin;
+    assign {cout, sum} = a + b + cin;
 endmodule
