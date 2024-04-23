@@ -13,7 +13,7 @@ module dual_port_RAM #(parameter DEPTH = 16,  parameter WIDTH = 8)
 	 output reg [WIDTH-1:0] rdata 		
 );
 
-reg [WIDTH-1:0] RAM_MEM [0:DEPTH-1];
+wire [WIDTH-1:0] RAM_MEM [0:DEPTH-1];
 
 always @(posedge wclk) begin
 	if(wenc)
@@ -63,7 +63,6 @@ end
 always @(posedge rclk or negedge rrstn) begin
 	if(~rrstn) begin
 		raddr_bin <= 'd0;
-                waddr_bin <= 'd1;
 	end 
 	else if(!rempty && rinc)begin
 		raddr_bin <= raddr_bin + 1'd1;

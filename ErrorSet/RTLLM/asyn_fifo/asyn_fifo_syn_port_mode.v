@@ -32,19 +32,18 @@ endmodule
 module asyn_fifo#(
 	parameter	WIDTH = 8,
 	parameter 	DEPTH = 16
-)(
-	input 					wclk	, 
-	input 					rclk	,   
-	input 					wrstn	,
-	input					rrstn	,
-	input 					winc	,
-	input 			 		rinc	,
-	input 		[WIDTH-1:0]	wdata	,
+)(wclk,rclk,wrstn,rrstn,winc,rinc,wdata,wfull,rempty,rdata);
+	input 					wclk	; 
+	input 					rclk	;   
+	input 					wrstn	;
+	input					rrstn	;
+	input 			 		rinc	;
+	input 		[WIDTH-1:0]	wdata	;
 
-	output wire				wfull	,
-	output wire				rempty	,
-	output wire [WIDTH-1:0]	rdata
-);
+	output wire				wfull	;
+	output wire				rempty	;
+	output wire [WIDTH-1:0]	rdata	;
+
 
 parameter ADDR_WIDTH = $clog2(DEPTH);
 
@@ -63,7 +62,6 @@ end
 always @(posedge rclk or negedge rrstn) begin
 	if(~rrstn) begin
 		raddr_bin <= 'd0;
-                waddr_bin <= 'd1;
 	end 
 	else if(!rempty && rinc)begin
 		raddr_bin <= raddr_bin + 1'd1;

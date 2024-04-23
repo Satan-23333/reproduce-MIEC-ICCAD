@@ -29,7 +29,7 @@ endmodule
 
 
 /**************************************AFIFO*****************************************/
-module verified_asyn_fifo#(
+module asyn_fifo#(
 	parameter	WIDTH = 8,
 	parameter 	DEPTH = 16
 )(
