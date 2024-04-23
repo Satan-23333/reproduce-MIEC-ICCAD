@@ -11,10 +11,10 @@ module accu(
 );
     
    reg [1:0] count;
-   wire add_cnt;
+   reg add_cnt;
    wire ready_add;
    wire end_cnt;
-   reg [7:0]   data_out_reg;
+   reg [9:0]   data_out_reg;
 
    assign add_cnt = ready_add;
    assign end_cnt = ready_add && (count == 'd3);

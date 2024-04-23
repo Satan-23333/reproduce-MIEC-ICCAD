@@ -6,7 +6,7 @@ module accu(
     input       [7:0]   data_in     ,
     input               valid_in     ,
  
-    output  reg         valid_out     ,
+    output  reg         valid_out ,    
     output  reg [9:0]   data_out
 );
     
@@ -14,14 +14,14 @@ module accu(
    wire add_cnt;
    wire ready_add;
    wire end_cnt;
-   reg [7:0]   data_out_reg;
+   reg [9:0]   data_out_reg;
 
    assign add_cnt = ready_add;
    assign end_cnt = ready_add && (count == 'd3);
    
    //count
    always @(posedge clk or negedge rst_n) begin
-       if(!rst_n) begin
+       if(rst_n) begin
           count <= 0;
        end
        else if(end_cnt) begin
@@ -34,7 +34,7 @@ module accu(
 
     //data_out_reg
    always @(posedge clk or negedge rst_n) begin
-      if(!rst_n) begin
+      if(rst_n) begin
         data_out_reg <= 0;
       end
       else if (add_cnt && count == 0) begin
@@ -47,7 +47,7 @@ module accu(
 
     //data_out
    always @(posedge clk or negedge rst_n) begin
-      if(!rst_n) begin
+      if(rst_n) begin
         data_out <= 0;
       end
       else if (add_cnt && count == 0) begin
@@ -63,7 +63,7 @@ module accu(
 
    //valid_out
    always @(posedge clk or negedge rst_n) begin
-       if(!rst_n) begin
+       if(rst_n) begin
            valid_out <= 0;
        end
        else if(end_cnt) begin

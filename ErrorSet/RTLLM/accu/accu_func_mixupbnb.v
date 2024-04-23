@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-module verified_accu(
+module accu(
     input               clk         ,   
     input               rst_n       ,
     input       [7:0]   data_in     ,

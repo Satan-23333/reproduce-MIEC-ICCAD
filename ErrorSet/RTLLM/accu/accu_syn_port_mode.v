@@ -1,20 +1,18 @@
 `timescale 1ns/1ns
 
-module accu(
-    input               clk         ,   
-    input               rst_n       ,
-    input       [7:0]   data_in     ,
-    input               valid_in     ,
- 
-    output  reg         valid_out     ,
+module accu(clk,rst_n,data_in,valid_in,valid_out,data_out);
+    input               clk         ;   
+    input               rst_n       ;
+    input       [7:0]   data_in     ;
+    output  reg         valid_out     ;
     output  reg [9:0]   data_out
-);
+
     
    reg [1:0] count;
    wire add_cnt;
    wire ready_add;
    wire end_cnt;
-   reg [7:0]   data_out_reg;
+   reg [9:0]   data_out_reg;
 
    assign add_cnt = ready_add;
    assign end_cnt = ready_add && (count == 'd3);

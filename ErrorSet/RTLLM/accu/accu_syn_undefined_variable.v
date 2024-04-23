@@ -11,9 +11,9 @@ module accu(
 );
     
    reg [1:0] count;
-   wire add_count;
-   wire ready_add;
-   wire end_count;
+   wire add_cnt;
+   wire ready_dd;
+   wire end_cnt;
    reg [9:0]   data_out_reg;
 
    assign add_cnt = ready_add;
