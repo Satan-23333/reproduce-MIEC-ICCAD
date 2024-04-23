@@ -104,6 +104,7 @@ def modelsim_done(dir_path: str):
         # 如果目标路径存在原文件夹的话就先删除
         os.remove(target_path)
 
+
 def find_until_no_target(text):
     # 使用正则表达式创建一个模式，该模式查找不包含目标字符串的部分
     # 这里使用的是正向前瞻（?=pattern）来确保匹配直到找到目标字符串
@@ -131,8 +132,10 @@ def code_fetch(text):
 
 def score_fetch(code):
     pattern2 = r"\d+"
-    score = re.findall(pattern2, code)
+    score_txt = re.findall(pattern2, code)
+    score = list(map(int, score_txt))
     return score
+
 
 def collect_design(path, ignore=["tb", "testbench"]):
     """收集文件夹下的所有.v后缀文件，默认忽略tb和testbench"""
