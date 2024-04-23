@@ -14,7 +14,7 @@ module alu(
     
 
     parameter ADD = 6'b100000;
-    parameter ADU = 6'b100001;
+    parameter ADDU = 6'b100001;
     parameter SUB = 6'b100010;
     parameter SUBU = 6'b100011;
     parameter AND = 6'b100100;
@@ -100,7 +100,7 @@ module alu(
                 res <= b_signed >>> a_signed[4:0];
             end
             LUI: begin
-                res <= {a[15:0], 16'h0000};
+                res <= {a[16:0], 16'h0000};
             end
             default:
             begin
