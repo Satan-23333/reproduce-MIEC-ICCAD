@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module verified_multi_booth_8bit (p, rdy, clk, reset, a, b);
+module multi_booth_8bit (p, rdy, clk, reset, a, b);
    input clk, reset;
    input [7:0] a, b;
    output [15:0] p;

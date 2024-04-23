@@ -3,16 +3,16 @@
 module multi_booth_8bit (p, rdy, clk, reset, a, b);
    input clk, reset;
    input [7:0] a, b;
-   output [15:0] p;
+   output reg [15:0] p;
    output rdy;
    
-   reg [15:0] p;
+   wire [15:0] p;
    reg [15:0] multiplier;
    reg [15:0] multiplicand;
    reg rdy;
    reg [4:0] ctr;
 
-always @(posedge clk or negedge reset) begin
+always @(posedge clk or posedge reset) begin
     if (reset) 
     begin
     rdy     <= 0;
