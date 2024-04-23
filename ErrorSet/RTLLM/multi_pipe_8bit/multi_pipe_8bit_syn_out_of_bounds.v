@@ -29,7 +29,7 @@ module multi_pipe_8bit#(
        end
        else begin
             mul_en_out_reg <= {mul_en_out_reg[1:0],mul_en_in};            
-            mul_en_out     <= mul_en_out_reg[2]                  
+            mul_en_out     <= mul_en_out_reg[2];                  
        end
  
  
@@ -54,7 +54,7 @@ module multi_pipe_8bit#(
   assign temp[4] = mul_b_reg[4]? {4'b0,mul_a_reg,4'b0} : 'd0;
   assign temp[5] = mul_b_reg[5]? {3'b0,mul_a_reg,5'b0} : 'd0;
   assign temp[6] = mul_b_reg[6]? {2'b0,mul_a_reg,6'b0} : 'd0;
-  assign temp[7] = mul_b_reg[7]? {1'b0,mul_a_reg,7'b0} : 'd0; 
+  assign temp[7] = mul_b_reg[8]? {1'b0,mul_a_reg,7'b0} : 'd0; 
  
  
      reg [15:0] sum [3:0];//[size/2-1:1]

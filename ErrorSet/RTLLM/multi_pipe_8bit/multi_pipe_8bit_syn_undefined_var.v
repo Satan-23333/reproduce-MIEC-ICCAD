@@ -1,4 +1,4 @@
-module verified_multi_pipe_8bit#(
+module multi_pipe_8bit#(
     parameter size = 8
 )(
           clk,      

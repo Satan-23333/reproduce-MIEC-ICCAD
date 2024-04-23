@@ -17,7 +17,7 @@ module multi_pipe_8bit#(
    input [size-1:0] mul_a;       
    input [size-1:0] mul_b;       
  
-   output reg mul_en_out;  
+reg mul_en_out;  
    output reg [size*2-1:0] mul_out;    
  
             
@@ -29,7 +29,7 @@ module multi_pipe_8bit#(
        end
        else begin
             mul_en_out_reg <= {mul_en_out_reg[1:0],mul_en_in};            
-            mul_en_out     <= mul_en_out_reg[2]                  
+            mul_en_out     <= mul_en_out_reg[2];                  
        end
  
  
