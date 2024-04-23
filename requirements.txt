@@ -21,7 +21,7 @@ jupyter_client==8.6.1
 jupyter_core==5.7.2
 matplotlib-inline==0.1.6
 nest-asyncio==1.6.0
-openai==1.14.0
+openai==1.23.2
 packaging==24.0
 parso==0.8.3
 platformdirs==4.2.0
