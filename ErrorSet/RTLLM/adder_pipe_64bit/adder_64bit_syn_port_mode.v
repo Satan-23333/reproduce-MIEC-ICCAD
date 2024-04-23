@@ -3,15 +3,14 @@ module adder_pipe_64bit
     parameter DATA_WIDTH = 64,
     parameter STG_WIDTH = 16
 )
-(
-    input clk,
-    input rst_n,
-    input i_en,
-    input [DATA_WIDTH-1:0] adda,
-    input [DATA_WIDTH-1:0] addb,
-    output [DATA_WIDTH:0] result,
-    output reg o_en
-);
+(clk,rst_n,i_en,adda,addb,result,o_en);
+    input clk;
+    input rst_n;
+    input [DATA_WIDTH-1:0] adda;
+    input [DATA_WIDTH-1:0] addb;
+    output [DATA_WIDTH:0] result;
+    output reg o_en;
+
 
 reg stage1;
 reg stage2;
@@ -71,122 +70,122 @@ assign b4 = addb[STG_WIDTH*4-1:48];
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        stage1 = 1'b0;
-        stage2 = 1'b0;
-        stage3 = 1'b0;
-        o_en = 1'b0;
+        stage1 <= 1'b0;
+        stage2 <= 1'b0;
+        stage3 <= 1'b0;
+        o_en <= 1'b0;
     end
     else begin
-        stage1 = i_en;
-        stage2 = stage1;
-        stage3 = stage2;
-        o_en = stage3;
+        stage1 <= i_en;
+        stage2 <= stage1;
+        stage3 <= stage2;
+        o_en <= stage3;
     end
 end
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        a2_ff1 = 'd0;
-        b2_ff1 = 'd0;
-        a3_ff1 = 'd0;
-        b3_ff1 = 'd0;
-        a3_ff2 = 'd0;
-        b3_ff2 = 'd0;
-        a4_ff1 = 'd0;
-        b4_ff1 = 'd0;
-        a4_ff2 = 'd0;
-        b4_ff2 = 'd0;
-        a4_ff3 = 'd0;
-        b4_ff3 = 'd0;
+        a2_ff1 <= 'd0;
+        b2_ff1 <= 'd0;
+        a3_ff1 <= 'd0;
+        b3_ff1 <= 'd0;
+        a3_ff2 <= 'd0;
+        b3_ff2 <= 'd0;
+        a4_ff1 <= 'd0;
+        b4_ff1 <= 'd0;
+        a4_ff2 <= 'd0;
+        b4_ff2 <= 'd0;
+        a4_ff3 <= 'd0;
+        b4_ff3 <= 'd0;
     end
     else begin
-        a2_ff1 = a2;
-        b2_ff1 = b2;
-        a3_ff1 = a3;
-        b3_ff1 = b3;
-        a3_ff2 = a3_ff1;
-        b3_ff2 = b3_ff1;
-        a4_ff1 = a4;
-        b4_ff1 = b4;
-        a4_ff2 = a4_ff1;
-        b4_ff2= b4_ff1;
-        a4_ff3 = a4_ff2;
-        b4_ff3 = b4_ff2;
+        a2_ff1 <= a2;
+        b2_ff1 <= b2;
+        a3_ff1 <= a3;
+        b3_ff1 <= b3;
+        a3_ff2 <= a3_ff1;
+        b3_ff2 <= b3_ff1;
+        a4_ff1 <= a4;
+        b4_ff1 <= b4;
+        a4_ff2 <= a4_ff1;
+        b4_ff2<= b4_ff1;
+        a4_ff3 <= a4_ff2;
+        b4_ff3 <= b4_ff2;
     end
 end
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        s1_ff1 = 'd0;
-        s1_ff2 = 'd0;
-        s1_ff3 = 'd0;
-        s2_ff1 = 'd0;
-        s2_ff2 = 'd0;
-        s3_ff1 = 'd0;
+        s1_ff1 <= 'd0;
+        s1_ff2 <= 'd0;
+        s1_ff3 <= 'd0;
+        s2_ff1 <= 'd0;
+        s2_ff2 <= 'd0;
+        s3_ff1 <= 'd0;
     end
     else begin
-        s1_ff1 = s1;
-        s1_ff2 = s1_ff1;
-        s1_ff3 = s1_ff2;
-        s2_ff1 = s2;
-        s2_ff2 = s2_ff1;
-        s3_ff1 = s3;
+        s1_ff1 <= s1;
+        s1_ff2 <= s1_ff1;
+        s1_ff3 <= s1_ff2;
+        s2_ff1 <= s2;
+        s2_ff2 <= s2_ff1;
+        s3_ff1 <= s3;
     end
 end
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        c1 = 1'b0;
-        s1 = 'd0;
+        c1 <= 1'b0;
+        s1 <= 'd0;
     end
     else if (i_en) begin
-        {c1, s1} = a1 + b1;
+        {c1, s1} <= a1 + b1;
     end
     else begin
-        c1 = c1;
-        s1 = s1;
+        c1 <= c1;
+        s1 <= s1;
     end
 end
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        c2 = 1'b0;
-        s2 = 'd0;
+        c2 <= 1'b0;
+        s2 <= 'd0;
     end
     else if (stage1) begin
-        {c2, s2} = a2_ff1 + b2_ff1 + c1;
+        {c2, s2} <= a2_ff1 + b2_ff1 + c1;
     end
     else begin
-        c2 = c2;
-        s2 = s2;
+        c2 <= c2;
+        s2 <= s2;
     end
 end
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        c3 = 1'b0;
-        s3 = 'd0;
+        c3 <= 1'b0;
+        s3 <= 'd0;
     end
     else if (stage2) begin
-        {c3, s3} = a3_ff2 + b3_ff2 + c2;
+        {c3, s3} <= a3_ff2 + b3_ff2 + c2;
     end
     else begin
-        c3 = c3;
-        s3 = s3;
+        c3 <= c3;
+        s3 <= s3;
     end
 end
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        c4 = 1'b0;
-        s4 = 'd0;
+        c4 <= 1'b0;
+        s4 <= 'd0;
     end
     else if (stage3) begin
-        {c4, s4} = a4_ff3 + b4_ff3 + c3;
+        {c4, s4} <= a4_ff3 + b4_ff3 + c3;
     end
     else begin
-        c4 = c4;
-        s4 = s4;
+        c4 <= c4;
+        s4 <= s4;
     end
 end
 

@@ -1,4 +1,4 @@
-module verified_adder_64bit
+module adder_pipe_64bit
 #(
     parameter DATA_WIDTH = 64,
     parameter STG_WIDTH = 16
