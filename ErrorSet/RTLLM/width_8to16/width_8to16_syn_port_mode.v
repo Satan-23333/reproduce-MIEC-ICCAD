@@ -1,13 +1,12 @@
 `timescale 1ns/1ns
-module width_8to16(
-	input 				   clk 		,   
-	input 				   rst_n		,
-	input				      valid_in	
-	input	   [7:0]		   data_in	,
+module width_8to16(clk,rst_n,valid_in,data_in,valid_out,data_out);
+	input 				   clk 		;   
+	input				      valid_in	;
+	input	   [7:0]		   data_in	;
  
- 	output	reg			valid_out,
-	output   reg [15:0]	data_out
-);
+ 	output	reg			valid_out;
+	output   reg [15:0]	data_out;
+
 reg 	[7:0]		data_lock;  //data buffer
 reg 				flag	   ;
 //input data buff in data_lock

@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-module verified_width_8to16(
+module width_8to16(
 	input 				   clk 		,   
 	input 				   rst_n		,
 	input				      valid_in	,
