@@ -11,8 +11,6 @@ module parallel2serial(
 reg [3:0] data = 'd0;
 reg [1:0]cnt;
 reg valid;
-reg d;
-
 assign dout = data[3];
 assign valid_out =valid;
 always @(posedge clk or negedge rst_n) begin
@@ -31,7 +29,7 @@ always @(posedge clk or negedge rst_n) begin
 		else begin
 			cnt <= cnt + 'd1;
 			valid <= 0;
-			data  <= {data[2:0],data[3]};
+			data  <= {data[2:0],data[4]};
 		end
     end
 		

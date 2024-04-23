@@ -1,18 +1,15 @@
 `timescale 1ns/1ns
-module parallel2serial(
-	input wire clk  ,
-	input wire rst_n  ,
-	input wire [3:0]d ,
-	output wire valid_out ,
-	output wire dout
-	);
+module parallel2serial(clk,rst_n,d,valid_out,dout);
+	input wire clk  ;
+	input wire rst_n  ;
+	input wire [3:0]d ;
+	output wire valid_out;
+wire dout;
 
 
 reg [3:0] data = 'd0;
 reg [1:0]cnt;
 reg valid;
-reg d;
-
 assign dout = data[3];
 assign valid_out =valid;
 always @(posedge clk or negedge rst_n) begin
