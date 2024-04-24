@@ -114,9 +114,9 @@ def Start_Debug(json_data):
 
             if sim is not None:
                 # 生成问题，如果编译不通过则使用编译报告，否则使用仿真报告
-                Question = f"The Spec(design description) is\n\n{spec}\n\nThe Design Code is\n\n{design}\n\nThe Simulation Report is\n\n{sim}"
+                Question = f"The Spec(design description) is\n\n{spec}\n\nThe Design Code is\n\n{design}\n\nThe Simulation Report is\n\n{sim}\n\nPlease fix the error according to the simulation report."
             else:
-                Question = f"The Spec(design description) is\n\n{spec}\n\nThe Design Code is\n\n{design}\n\nThe Compile Report is\n\n{compile}"
+                Question = f"The Spec(design description) is\n\n{spec}\n\nThe Design Code is\n\n{design}\n\nThe Compile Report is\n\n{compile}\n\nPlease fix the error according to the compile report."
 
             # 与GPT模型交互
             for _ in range(3):
@@ -129,6 +129,7 @@ def Start_Debug(json_data):
                     Debug_time_list.append(One_debug_time)
                     break
                 except Exception as e:
+                    print(e)
                     continue
             print("\n-GPTFIXer:\n" + FIX)
 
@@ -159,7 +160,7 @@ def Start_Debug(json_data):
                     score = score_fetch(scoretext)
                     print("\n-System: " + scoretext)
 
-                    if score[1] + 4 >= score[0]:
+                    if int(score[1]) + 4 >= int(score[0]):
                         print("\n-System: Move on")
                         Debug_Files.Create_Testbench(work_design_path)
 
