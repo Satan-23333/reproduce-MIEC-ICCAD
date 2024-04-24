@@ -1,0 +1,187 @@
+module tb_adder64();
+
+  parameter DATA_WIDTH = 64;
+  parameter STG_WIDTH = 16;
+
+  reg CLK;
+  reg RST;
+  reg i_en;
+  wire o_en;
+  reg [DATA_WIDTH-1:0] PLUS_A;
+  reg [DATA_WIDTH-1:0] PLUS_B;
+  wire [DATA_WIDTH:0] SUM_OUT;
+
+
+  always #2 CLK = ~CLK;
+  integer error = 0;
+  integer i;
+
+  reg [63:0]num_a[0:39];
+  reg [63:0]num_b[0:39];
+  reg [64:0]result[0:39];
+  initial begin
+num_a[0] = 64'H1D97795DBD8A0C6D;
+num_b[0] = 64'HFAB10AA7C6926ED8;
+result[0] = 65'H118488405841C7B45;
+num_a[1] = 64'H0DADC9133A549C4B;
+num_b[1] = 64'HA753A4AF68125EA4;
+result[1] = 65'H0B5016DC2A266FAEF;
+num_a[2] = 64'HF63FFE8F15ECAF7F;
+num_b[2] = 64'HCDA56A7AE3E23496;
+result[2] = 65'H1C3E56909F9CEE415;
+num_a[3] = 64'H89CF7A9D5CD736DB;
+num_b[3] = 64'H60D2F2B05C64CCE5;
+result[3] = 65'H0EAA26D4DB93C03C0;
+num_a[4] = 64'HD6832067FA3C09DE;
+num_b[4] = 64'H43CC1C963A718C06;
+result[4] = 65'H11A4F3CFE34AD95E4;
+num_a[5] = 64'HBF2C4FF0075B5533;
+num_b[5] = 64'HF4DD8902FEA970ED;
+result[5] = 65'H1B409D8F30604C620;
+num_a[6] = 64'HC066547C1F7F1DC5;
+num_b[6] = 64'H842514E75B7E9D60;
+result[6] = 65'H1448B69637AFDBB25;
+num_a[7] = 64'H90B88F1021CAD6D3;
+num_b[7] = 64'H3324E6675AC4D4CD;
+result[7] = 65'H0C3DD75777C8FABA0;
+num_a[8] = 64'HDF05B00BA5B70E97;
+num_b[8] = 64'H01C572FD46E17C2D;
+result[8] = 65'H0E0CB2308EC988AC4;
+num_a[9] = 64'H6CDDE7F9DB7415FA;
+num_b[9] = 64'HFE867139138606E5;
+result[9] = 65'H16B645932EEFA1CDF;
+num_a[10] = 64'HA06A33195A4B54B6;
+num_b[10] = 64'HD86C26FDCC2D03BF;
+result[10] = 65'H178D65A1726785875;
+num_a[11] = 64'H3876EF634B4848C9;
+num_b[11] = 64'H1873E818DB18152B;
+result[11] = 65'H050EAD77C26605DF4;
+num_a[12] = 64'H10A3758A7F53D380;
+num_b[12] = 64'H2C3168638AE2D0D1;
+result[12] = 65'H03CD4DDEE0A36A451;
+num_a[13] = 64'HE323AC0E2DA6115D;
+num_b[13] = 64'HA944B42274627AEE;
+result[13] = 65'H18C686030A2088C4B;
+num_a[14] = 64'HB827481564C58BE3;
+num_b[14] = 64'H68BDED6EF8A54B0A;
+result[14] = 65'H120E535845D6AD6ED;
+num_a[15] = 64'HD7DBF466352495AE;
+num_b[15] = 64'H6BE98B5B626DD128;
+result[15] = 65'H143C57FC1979266D6;
+num_a[16] = 64'H8B7CCD6B6725C767;
+num_b[16] = 64'HB7B5DBF0BD5499FF;
+result[16] = 65'H14332A95C247A6166;
+num_a[17] = 64'HA7FE1AA0B23E991E;
+num_b[17] = 64'H0D828975B78C19B3;
+result[17] = 65'H0B580A41669CAB2D1;
+num_a[18] = 64'HBD057377C2A69241;
+num_b[18] = 64'H7DA634272A3714C3;
+result[18] = 65'H13AABA79EECDDA704;
+num_a[19] = 64'H32C45C0CFA59F8CB;
+num_b[19] = 64'H50EBBAA8DFD8829C;
+result[19] = 65'H083B016B5DA327B67;
+num_a[20] = 64'H087136313B61D470;
+num_b[20] = 64'H4C4A9D990EA6E012;
+result[20] = 65'H054BBD3CA4A08B482;
+num_a[21] = 64'HA5F69B65C42FCDBB;
+num_b[21] = 64'H4FC64FA968F06A1B;
+result[21] = 65'H0F5BCEB0F2D2037D6;
+num_a[22] = 64'H82AEE67D7599BB3D;
+num_b[22] = 64'H6BD70409985B1908;
+result[22] = 65'H0EE85EA870DF4D445;
+num_a[23] = 64'H4553EFC7E8BD325E;
+num_b[23] = 64'HF16B51A8FB3E059A;
+result[23] = 65'H136BF4170E3FB37F8;
+num_a[24] = 64'HC7D4CE90DABF6B99;
+num_b[24] = 64'H10AF3064CD9D14CD;
+result[24] = 65'H0D883FEF5A85C8066;
+num_a[25] = 64'H73763043336C2693;
+num_b[25] = 64'H69C073A4DC148BF0;
+result[25] = 65'H0DD36A3E80F80B283;
+num_a[26] = 64'H82B75456570E4B29;
+num_b[26] = 64'H3E391AD340930A27;
+result[26] = 65'H0C0F06F2997A15550;
+num_a[27] = 64'HA8A31D389828BF4D;
+num_b[27] = 64'H98725E934BEC384D;
+result[27] = 65'H141157BCBE414F79A;
+num_a[28] = 64'H78A6B4430BA3E066;
+num_b[28] = 64'H21D4A435598089CB;
+result[28] = 65'H09A7B587865246A31;
+num_a[29] = 64'H13F8E3D7D86015B1;
+num_b[29] = 64'HB3D960FB1D96FBCC;
+result[29] = 65'H0C7D244D2F5F7117D;
+num_a[30] = 64'HDCF3098BF31C373E;
+num_b[30] = 64'H679D47D0472321F7;
+result[30] = 65'H14490515C3A3F5935;
+num_a[31] = 64'H27BD0697DD61C965;
+num_b[31] = 64'HED0B753A33F4E34A;
+result[31] = 65'H114C87BD21156ACAF;
+num_a[32] = 64'H6D0EE84E404D990E;
+num_b[32] = 64'HCB3755A51A2730DF;
+result[32] = 65'H138463DF35A74C9ED;
+num_a[33] = 64'H6FF3E157588DB48E;
+num_b[33] = 64'H323CC74AE583E5FC;
+result[33] = 65'H0A230A8A23E119A8A;
+num_a[34] = 64'H7B852886B0E4192C;
+num_b[34] = 64'H8AF028AB518BF24D;
+result[34] = 65'H10675513202700B79;
+num_a[35] = 64'H6599BD2148F23BFF;
+num_b[35] = 64'HB1B0A6C3067B0221;
+result[35] = 65'H1174A63E44F6D3E20;
+num_a[36] = 64'H4BEB79126A8726AB;
+num_b[36] = 64'H9D5600D5259554CD;
+result[36] = 65'H0E94179E7901C7B78;
+num_a[37] = 64'HCCFAEBAF070C9916;
+num_b[37] = 64'H78E3ACF2476C5F5B;
+result[37] = 65'H145DE98A14E78F871;
+num_a[38] = 64'HC2ECA0CF5FD27428;
+num_b[38] = 64'H8ABE42EC23991B42;
+result[38] = 65'H14DAAE3BB836B8F6A;
+num_a[39] = 64'HEEA8F1B0C3950936;
+num_b[39] = 64'HAB75B0FCA1E45FAE;
+result[39] = 65'H19A1EA2AD657968E4;
+  
+  end
+
+  initial begin
+    CLK = 0;
+    for (i = 0; i < 40; i = i + 1) begin
+      RST = 0;
+      i_en = 0;
+      #8 RST = 1;
+      i_en = 1'b1;
+      PLUS_A = num_a[i];
+      PLUS_B = num_b[i];
+      while(o_en==0) begin
+        @(negedge CLK);
+      end
+        error = (result[i] == SUM_OUT && o_en ==1 ) ? error : error + 1;
+      @(negedge CLK);
+    end
+
+    if (error == 0) begin
+      $display("=========== Your Design Passed ===========");
+    end
+    else begin
+      $display("=========== Test completed with %d / 100 failures ===========", error);
+    end
+
+    $finish;
+  end
+
+
+  verified_adder_64bit #(
+    .DATA_WIDTH(DATA_WIDTH),
+    .STG_WIDTH(STG_WIDTH)
+  )
+  u_pip_add64 (
+    .clk (CLK),
+    .rst_n (RST),
+    .i_en (i_en),
+    .adda (PLUS_A),
+    .addb (PLUS_B),
+    .result (SUM_OUT),
+    .o_en (o_en)
+  );
+
+endmodule

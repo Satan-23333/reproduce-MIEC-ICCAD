@@ -1,3 +1,4 @@
 # ignore api.ini
 **/api.ini
-
+ErrorSet/
+RTTLLM/
