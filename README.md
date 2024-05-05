@@ -1,6 +1,5 @@
 # Verilog-Auto-Debug<h3><p align="right">*Verilog auto debug with LLMs*</p></h3>
-- Workflow ![Workflow](https://github.com/Satan-23333/Verilog-Auto-Debug/blob/main/Workflow.png)
-- 流程 ![流程](https://github.com/Satan-23333/Verilog-Auto-Debug/blob/main/%E6%B5%81%E7%A8%8B.png)
+
 ## How to use
 - 下载modelsim仿真工具
 - 将Verilog代码放在合适的文件夹内，并编写TestBench
