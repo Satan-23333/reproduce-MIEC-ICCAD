@@ -51,7 +51,7 @@ def Start_Debug(json_data):
     modelsim_done(work_path)
     Sim_time_list.append(One_sim_time)
 
-    max_i = 11
+    max_i = 10
     GPT = GPTs.GPTS(
         "DebugGPT", "asst_HvM228Prmecq2ILVkS7GkLYx"
     ) 
