@@ -5,7 +5,7 @@
 - ```Framework``` : Contains the main program `main.py`, along with other necessary script files and configuration files.
 
 ## How to Use
-- Install the ModelSim simulation tool.
+- Install the [```ModelSim```](https://eda.sw.siemens.com/en-US/ic/modelsim/) simulation tool.
 - Install dependencies:
 ```bash
   pip install -r requirements.txt
