@@ -1,8 +1,0 @@
-# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
-# Start time: 01:51:11 on Mar 20,2024
-# ** Note: (vsim-3812) Design is being optimized...
-# ** Error (suppressible): (vopt-8884) ./design/design.v(46): Illegal output port connection for 'rdata' (8th connection) to reg type. 
-# Optimization failed
-# Error loading design
-# End time: 01:51:12 on Mar 20,2024, Elapsed time: 0:00:01
-# Errors: 1, Warnings: 0

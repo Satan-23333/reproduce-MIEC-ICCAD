@@ -1,7 +1,6 @@
 import os
 
 
-# 待处理的设计文件类
 class DEBUG_FILES:
     Design = ""
     Design_Content = ""

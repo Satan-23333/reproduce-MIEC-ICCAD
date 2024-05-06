@@ -1,8 +1,0 @@
-# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
-# Start time: 01:13:41 on Mar 20,2024
-# ** Note: (vsim-3812) Design is being optimized...
-# ** Error (suppressible): ./design/tb.v(56): (vopt-2732) Module parameter 'STG_WIDTH' not found for override.
-# Optimization failed
-# Error loading design
-# End time: 01:13:41 on Mar 20,2024, Elapsed time: 0:00:00
-# Errors: 1, Warnings: 0

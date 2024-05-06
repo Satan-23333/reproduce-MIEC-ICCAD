@@ -32,8 +32,7 @@ class EventHandler(AssistantEventHandler):
 
 
 class GPTS:
-    proxy_url = "https://gpt-api.satan2333.icu/v1"
-    # proxy_url= "https://api.ioii.cn/v1"
+    proxy_url = "https://api.openai.com/v1"
     try:
         current_dir = os.path.dirname(os.path.realpath(__file__))
     except:
@@ -45,12 +44,6 @@ class GPTS:
     ASSISTANT_ID = ""
 
     def __init__(self, log_name, ASSISTANT_ID="asst_cJrrHWwpW3r6BOCK3AVH7vSS") -> None:
-        """初始化类,创建一个GPTS实例，并保存到json文件
-
-        Args:
-            - log_name (str): 保存到json文件的名称
-            - ASSISTANT_ID (str, optional): 要互动的ASSISTANT的ID, 默认选择Verilog Auto Debug: "asst_cJrrHWwpW3r6BOCK3AVH7vSS".
-        """
         with open(self.current_dir + "\\api.ini", "r") as api:
             OpenAI_API = api.read()
         self.client = OpenAI(api_key=OpenAI_API, base_url=self.proxy_url)
@@ -58,7 +51,6 @@ class GPTS:
         self.thread_id = self.thread.id
         self.ASSISTANT_ID = ASSISTANT_ID
 
-        # 获取当前时间并格式化为字符串
         self.init_time = datetime.now().strftime("%Y-%m-%d_%H-%M")
         self.json_name = f"{log_name}_{self.init_time}.json"
 
@@ -68,7 +60,7 @@ class GPTS:
         os.makedirs(self.current_dir + "\\json", exist_ok=True)
         with open(self.json_dir, "w", encoding="UTF-8") as file:
             json.dump(self.json_content, file, indent=4)
-        print(f"保存到JSON文件 '{self.json_name}'")
+        print(f"Save to json: '{self.json_name}'")
 
     def save_json(self) -> None:
         with open(self.json_dir, "w", encoding="UTF-8") as file:
@@ -76,16 +68,6 @@ class GPTS:
         return
 
     def ASK_GPTs(self, data, stream=True) -> str:
-        """和GPTS交互,输入问题,返回GPTS的响应,同时将输入输出存入json
-
-        Args:
-            - data (str): 输入问题
-            - stream (bool, optional): 是否开启实时流式输出. Defaults to True.
-
-        Returns:
-            str: gpt的响应
-            float: gpt的响应时间
-        """
         ask_start_time = time.time()
         self.user_msg["content"] = data
         self.message.append(self.user_msg)
@@ -99,7 +81,6 @@ class GPTS:
             with self.client.beta.threads.runs.create_and_stream(
                 thread_id=self.thread_id,
                 assistant_id=self.ASSISTANT_ID,
-                # instructions="Please address the user as Jane Doe. The user has a premium account.",
                 event_handler=EventHandler(),
             ) as stream:
                 stream.until_done()
@@ -107,7 +88,6 @@ class GPTS:
             run = self.client.beta.threads.runs.create(
                 thread_id=self.thread_id,
                 assistant_id=self.ASSISTANT_ID,
-                # instructions="Please address the user as Jane Doe. The user has a premium account.",
             )
             while run.status in ["queued", "in_progress", "cancelling"]:
                 time.sleep(1)  # Wait for 1 second
@@ -129,16 +109,10 @@ class GPTS:
         self.json_content[ask_time] = [{"User": data}]
         self.json_content[response_time] = [{"GPTS": gpt_res}]
         self.save_json()
-        # self.save_json(completion.choices[0].message)
         ask_end_time = time.time()
         return self.gpt_msg["content"], ask_end_time - ask_start_time
 
     def History(self, num=-1) -> str:
-        """
-        - 返回第num个响应,包括输入
-        - 示例:
-        self.History() -> 你好！有什么我可以帮助你的吗？
-        """
         last_key = list(self.json_content)[num]
         last_value = self.json_content[last_key]
         Response = last_value[0]
@@ -149,17 +123,15 @@ class GPTS:
 if __name__ == "__main__":
     # message = []
     # gpt_msg = []
-    GPTS = GPTS("gpts")#,"asst_8nl7vABDrwbFr0wdCGLhKdJw",)
+    GPTS = GPTS("gpts")
     try:
         while True:
             user_input = input("\n-User: ").strip()
-            if user_input == "exit" or user_input == "退出":
+            if user_input == "exit":
                 break
             gpt_res = GPTS.ASK_GPTs(user_input, stream=True)
             print("\n-GPT: " + gpt_res)
-            # print(GPT.History(-2))
     except Exception as e:
         print(e)
 
-    # print(GPT.ReGenerate_Response())
     os.system("pause")

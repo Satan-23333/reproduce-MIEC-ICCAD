@@ -1,8 +1,0 @@
-# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
-# Start time: 20:39:27 on Mar 19,2024
-# ** Note: (vsim-3812) Design is being optimized...
-# ** Error (suppressible): ./design/tb.v(13): (vopt-2912) Port 'C32' not found in module 'adder_32bit' (4th connection).
-# Optimization failed
-# Error loading design
-# End time: 20:39:27 on Mar 19,2024, Elapsed time: 0:00:00
-# Errors: 1, Warnings: 0

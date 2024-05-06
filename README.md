@@ -1,13 +1,16 @@
-# Verilog-Auto-Debug<h3><p align="right">*Verilog auto debug with LLMs*</p></h3>
+# MEIC : Make Each Iteration Count.  <h3><p align="right">*Verilog auto debug with LLMs*</p></h3>
 
-## How to use
-- 下载modelsim仿真工具
-- 将Verilog代码放在合适的文件夹内，并编写TestBench
-- sim.bat执行仿真，仿真.do文件为wave.do，可自行修改路径参数
-- 执行py脚本，利用以下指令安装依赖
-```cmd
+## Directory Overview
+- ErrorSet: The dataset we use, which contains error codes.
+- Framework: Contains the main program `main.py`, along with other necessary script files and configuration files.
+
+## How to Use
+- Install the ModelSim simulation tool.
+- Install dependencies:
+```bash
   pip install -r requirements.txt
 ```
-
-upload.py执行修改markdown和上传网页操作，现暂时不使用
+- Modify the contents of ```Framework/api.ini``` to include your own OpenAI API key.
+- Modify the contents of ```Framework/config.json```, paying attention to the configuration file paths.
+- Run ```Framework/main.py```. The script will automatically generate an output folder, save logs, and count the output results.
 

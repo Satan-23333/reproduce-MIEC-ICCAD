@@ -1,8 +1,0 @@
-# vsim -voptargs="+acc" work.tb -l ./vsim.txt -wlf ./vsim.wlf 
-# Start time: 13:19:07 on Mar 20,2024
-# ** Note: (vsim-3812) Design is being optimized...
-# ** Error (suppressible): ./design/tb.v(11): (vopt-2912) Port 'd' not found in module 'parallel2serial' (3rd connection).
-# Optimization failed
-# Error loading design
-# End time: 13:19:08 on Mar 20,2024, Elapsed time: 0:00:01
-# Errors: 1, Warnings: 0

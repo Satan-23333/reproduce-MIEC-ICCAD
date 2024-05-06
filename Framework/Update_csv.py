@@ -1,4 +1,3 @@
-import json
 import csv
 
 def update_csv(json_data, csv_file):
@@ -15,10 +14,9 @@ def update_csv(json_data, csv_file):
             # Use writerows() not writerow()
             writer.writerow({"Name":name})
             writer.writerows(module_list[i])
-            #写入一行空行
             writer.writerow({})
 
 if __name__ == "__main__":
-    json_file = "D:\Code\Verilog\Autodebug\Output\Output_2024-04-16_20-45.json"
-    csv_file = "统计.csv"
+    json_file = "1.json"
+    csv_file = "st.csv"
     update_csv(json_file, csv_file)

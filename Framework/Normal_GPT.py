@@ -4,12 +4,10 @@ import os
 import json
 import time
 from datetime import datetime
-
+import copy
 
 class GPT:
-    proxy_url = "https://gpt-api.satan2333.icu/v1"
-    # proxy_url = "https://api.ioii.cn/v1"
-
+    proxy_url = "https://api.openai.com/v1"
     try:
         current_dir = os.path.dirname(os.path.realpath(__file__))
     except:
@@ -22,7 +20,6 @@ class GPT:
         with open(self.current_dir + "\\api.ini", "r") as api:
             OpenAI_API = api.read()
         self.client = OpenAI(api_key=OpenAI_API, base_url=self.proxy_url)
-        # 获取当前时间并格式化为字符串
         self.init_time = datetime.now().strftime("%Y-%m-%d_%H-%M")
         self.json_name = f"{log_name}_{self.init_time}.json"
 
@@ -32,7 +29,7 @@ class GPT:
         os.makedirs(self.current_dir + "\\json", exist_ok=True)
         with open(self.json_dir, "w", encoding="UTF-8") as file:
             json.dump(self.json_content, file, indent=4)
-        print(f"保存到JSON文件 '{self.json_name}'")
+        print(f"Save to json: '{self.json_name}'")
 
     def save_json(self):
         with open(self.json_dir, "w", encoding="UTF-8") as file:
@@ -40,13 +37,8 @@ class GPT:
         return
 
     def ASK_GPT(self, data):
-        """
-        - 和gpt交互,输入问题
-        - 返回gpt的响应
-        - 同时将输入输出存入json
-        """
         self.user_msg["content"] = data
-        self.message.append(self.user_msg)
+        self.message.append(copy.deepcopy(self.user_msg))
         ask_time = datetime.now().strftime("%H:%M:%S")
         completion = self.client.chat.completions.create(
             model="gpt-4-turbo", messages=self.message
@@ -54,7 +46,7 @@ class GPT:
         gpt_res = completion.choices[0].message
         self.gpt_msg["role"] = gpt_res.role
         self.gpt_msg["content"] = gpt_res.content
-        self.message.append(self.gpt_msg)
+        self.message.append(copy.deepcopy(self.gpt_msg))
 
         response_time = datetime.now().strftime("%H:%M:%S")
 
@@ -78,15 +70,6 @@ class GPT:
             {"role": "user", "content": "message"},
         ],
     ):
-        """
-        - 单次和gpt交互,不发送对话历史
-        - 返回gpt的响应
-        - 同时将输入输出存入json
-
-        Args:
-        - temperture -> float
-        - message -> list
-        """
         ask_time = datetime.now().strftime("%H:%M:%S")
         completion = self.client.chat.completions.create(
             model="gpt-4-turbo", temperature=temperture, messages=message
@@ -100,25 +83,7 @@ class GPT:
         return gpt_res.content
 
     def Get_Code_Score(self, spec, code0, code1, temperture=0.7):
-        """
-        - 返回代码质量评分,以及评分时间
-        - code -> str
-        """
         score_start_time = time.time()
-        # scoretext = self.ASK_GPT_Single(
-        #     temperture=temperture,
-        #     message=[
-        #         {
-        #             "role": "system",
-        #             "content": "You are an expert in HDL design, especially skilled in verilog code writing, correction and explanation.",
-        #         },  #
-        #         {
-        #             "role": "user",
-        #             "content": "Give a number to score the code quality, in range of {0, 100}. A number needed only!!! For example, '100' for the code which is correct, '0' is the opposite.Values in the middle represent imperfect parts of the code",
-        #         },  #
-        #         {"role": "user", "content": code},
-        #     ],
-        # )
         scoretext = self.ASK_GPT_Single(
             message=[
                 {
@@ -141,11 +106,6 @@ modified code: (total score)""",
         return scoretext, score_end_time - score_start_time
 
     def History(self, num=-1):
-        """
-        - 返回第num个响应,包括输入
-        - 示例:
-        self.History() -> 你好！有什么我可以帮助你的吗？
-        """
         last_key = list(self.json_content)[num]
         last_value = self.json_content[last_key]
         Response = last_value[0]
@@ -153,15 +113,9 @@ modified code: (total score)""",
         return Response[key]
 
     def ReGenerate_Response(self, num=1):
-        """
-        - 重新生成num个回答
-        - 返回gpt的响应
-        - num -> int
-        """
         for i in range(2 * num - 1):
             last_key = list(self.json_content)[-1]
             del self.json_content[last_key]
-        # 获取上次的问题
         Q = self.History()
         last_key = list(self.json_content)[-1]
         del self.json_content[last_key]
@@ -169,19 +123,15 @@ modified code: (total score)""",
 
 
 if __name__ == "__main__":
-    # message = []
-    # gpt_msg = []
     GPT = GPT("test")
     try:
         while True:
             user_input = input("\n-User: ").strip()
-            if user_input == "exit" or user_input == "退出":
+            if user_input == "exit":
                 break
             gpt_res = GPT.ASK_GPT(user_input)
             print("\n-GPT: " + gpt_res)
-            # print(GPT.History(-2))
     except Exception as e:
         print(e)
 
-    # print(GPT.ReGenerate_Response())
     os.system("pause")
